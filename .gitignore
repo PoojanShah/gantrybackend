@@ -1,13 +1,13 @@
 # Compiled files
-terraform/*.tfstate
-terraform/*.tfstate.backup
-terraform/*.tfstate.lock.info
+.terraform/*.tfstate
+.terraform/*.tfstate.backup
+.terraform/*.tfstate.lock.info
 
 # logs
 *.log
 
 # Directories
-terraform/.terraform/
+.terraform/.terraform/
 
 # SSH Keys
 *.pem
@@ -16,10 +16,10 @@ terraform/.terraform/
 *.bak
 
 # Ignored Terraform files
-terraform/*gitignore*.tf
+.terraform/*gitignore*.tf
 
 # Ignore Mac .DS_Store files
-terraform/.DS_Store
+.terraform/.DS_Store
 
 # Ignored vscode files
-terraform/.vscode
+.terraform/.vscode

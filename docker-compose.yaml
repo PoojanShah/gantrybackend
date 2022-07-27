@@ -42,9 +42,9 @@ services:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: qwerty1234
+      MYSQL_ROOT_PASSWORD: 9AYp9wiW7xoYPJWP
       MYSQL_USER: mysql-laravel
-      MYSQL_PASSWORD: 1234qwerty
+      MYSQL_PASSWORD: 9AYp9wiW7xoYPJWP
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
