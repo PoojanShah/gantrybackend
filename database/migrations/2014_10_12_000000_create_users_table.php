@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->string('new_email');
+            $table->string('new_password');
+            $table->string('token_for_password');
+            $table->integer('superadmin');
         });
     }
 
