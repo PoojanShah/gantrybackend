@@ -9,6 +9,8 @@ variables:
 
 Generate vendor:
   stage: build
+  services:
+    - name: docker:dind
   image: composer       # or you can use your hub.myserver.test/image:latest
   script:
     - composer install  # install packages
