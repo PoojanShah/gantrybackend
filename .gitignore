@@ -1,8 +1,6 @@
 /storage/*.key
 
 /vendor
-.env
-.env.backup
 .DS_Store
 .idea/
 # Compiled files
