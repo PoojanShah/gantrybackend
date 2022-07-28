@@ -14,7 +14,7 @@ Generate vendor:
       if [[ ! -d vendor ]]; then
         docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer install
       fi
-  cache:
+  artifacts:
     paths:
        - ./vendor  
   only:
