@@ -9,29 +9,21 @@ variables:
 
 Generate vendor:
   stage: build
-  services:
-    - name: docker:dind
-  image: composer       # or you can use your hub.myserver.test/image:latest
   script:
-    - composer install  # install packages
+    - |
+      if [[ ! -d vendor ]]; then
+        docker run --rm -v "$(pwd)":/app composer install
+      fi
   artifacts:
-    paths:
-      - vendor/  
-  # script:
-  #   - |
-  #     if [[ ! -d vendor ]]; then
-  #       docker run --rm -v "$(pwd)":/app composer install
-  #     fi
-  # artifacts:
-  #     paths:
-  #       - vendor/  
+      paths:
+        - vendor/  
   only:
     - adminpanel
   tags:
     - shell
 
 
-Update /vendor:
+Update vendor:
   stage: build
   script:
     - docker run --rm -v "$(pwd)":/app composer update
