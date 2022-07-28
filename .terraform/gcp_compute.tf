@@ -11,7 +11,7 @@ resource "google_compute_instance" "php_instance" {
     }
   }
   metadata = {
-    ssh-keys = "${file("~/Desktop/gantry_google.pub")}"
+    ssh-keys = "${var.user}:${file("~/Desktop/gantry.pub")}"
   }
 }
 #-----------------------------------------------------------
@@ -22,5 +22,5 @@ resource "google_compute_disk" "this" {
   type    = var.disk_type
   zone    = var.zone
   size    = 250
-  image = var.image
+  image   = var.image
 }

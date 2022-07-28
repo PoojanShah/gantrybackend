@@ -7,7 +7,11 @@ variable "zone" {
 }
 
 variable "image" {
-  type    = string
+  type = string
+}
+
+variable "user" {
+  type = string
 }
 
 variable "machine_type" {

@@ -13,3 +13,5 @@ CIDRblock = "0.0.0.0/0"
 projectName = "gantrybackend"
 
 disk_type = "pd-standard"
+
+user = "gantryadmin"
