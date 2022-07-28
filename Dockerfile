@@ -15,22 +15,22 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \ 
-    libzip-dev
-    
+    libzip-dev \
+    && docker-php-ext-install \
+    pdo_mysql \
+    sockets \
+    intl \
+    opcache \
+    zip \
+    && rm -rf /tmp/* \
+    && rm -rf /var/list/apt/* \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install extensions
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd
-
-# Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+RUN groupadd -g 1000 www && \
+    useradd -u 1000 -ms /bin/bash -g www www
 
 # Copy existing application directory contents
 COPY . /var/www

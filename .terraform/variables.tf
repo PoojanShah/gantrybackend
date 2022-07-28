@@ -35,6 +35,10 @@ variable "projectName" {
   default = "default"
 }
 
+variable "project" {
+  type    = string
+}
+
 variable "ssh-key" {
   type    = string
   default = ""

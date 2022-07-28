@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: backend:php
-    # image: us-central1-docker.pkg.dev/extended-method-356910/registry/gantrybackend:prod
+    # image: gcr.io/extended-method-356910/gantrybackend:prod
     container_name: app
     restart: unless-stopped
     tty: true

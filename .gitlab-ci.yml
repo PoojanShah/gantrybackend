@@ -4,7 +4,18 @@ stages:
 
 variables:
   DEPLOY_PROJECT_NAME: gantrybackend
-  IMAGE_TAG: us-central1-docker.pkg.dev/extended-method-356910/registry/gantrybackend:prod
+  IMAGE_TAG: gcr.io/extended-method-356910/gantrybackend:prod
+
+Generate /vendor:
+  stage: build
+  script:
+    - docker run --rm -v "$(pwd)":/app composer update
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'adminpanel'
+      changes:
+        - composer.json
+  tags:
+    - shell
 
 Build:
   stage: build
@@ -12,10 +23,10 @@ Build:
     - docker build -f Dockerfile -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
   only:
-    - main
+    - adminpanel
   tags:
     - shell
-    
+
 Deployment: 
   stage: deploy
   script:
@@ -25,6 +36,6 @@ Deployment:
     # - if git diff HEAD^ HEAD ./mysql/mysql.cnf | grep -q mysql; then docker-compose stop db && docker-compose up -d; fi
     # - if git diff HEAD^ HEAD ./nginx/cond.d/app.conf | grep -q nginx; then docker-compose stop webserver && docker-compose up -d; fi
   only:
-    - main
+    - adminpanel
   tags:
     - shell
