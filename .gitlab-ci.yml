@@ -1,0 +1,59 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DEPLOY_PROJECT_NAME: gantrybackend
+  IMAGE_TAG: gcr.io/extended-method-356910/gantrybackend:prod
+
+
+Generate vendor:
+  stage: build
+  script:
+    - |
+      if [[ ! -d vendor ]]; then
+        docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer install
+      fi
+  artifacts:
+    paths:
+       - ./vendor  
+  only:
+    - adminpanel
+  tags:
+    - shell
+
+Update vendor:
+  stage: build
+  script:
+    - docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer update
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'adminpanel'
+      changes:
+        - composer.json
+  tags:
+    - shell
+
+Build:
+  stage: build
+  before_script:
+    - echo $GCP_KEY | base64 -d | docker login -u _json_key --password-stdin https://gcr.io
+  script: 
+    - docker build -f Dockerfile -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+  only:
+    - adminpanel
+  tags:
+    - shell
+
+Deployment: 
+  stage: deploy
+  script:
+    - docker pull $IMAGE_TAG
+    - docker-compose stop app
+    - docker-compose up -d
+    # - if git diff HEAD^ HEAD ./mysql/mysql.cnf | grep -q mysql; then docker-compose stop db && docker-compose up -d; fi
+    # - if git diff HEAD^ HEAD ./nginx/cond.d/app.conf | grep -q nginx; then docker-compose stop webserver && docker-compose up -d; fi
+  only:
+    - adminpanel
+  tags:
+    - shell

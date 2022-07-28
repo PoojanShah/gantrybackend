@@ -17,7 +17,7 @@ resource "google_compute_instance" "php_instance" {
 #-----------------------------------------------------------
 
 resource "google_compute_disk" "this" {
-  project = "extended-method-356910"
+  project = var.project
   name    = "${var.projectName}-php"
   type    = var.disk_type
   zone    = var.zone
