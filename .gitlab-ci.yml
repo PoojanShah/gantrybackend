@@ -6,6 +6,9 @@ variables:
   DEPLOY_PROJECT_NAME: gantrybackend
   IMAGE_TAG: gcr.io/extended-method-356910/gantrybackend:prod
 
+cache:
+  paths:
+      - ./vendor  
 
 Generate vendor:
   stage: build
@@ -14,10 +17,6 @@ Generate vendor:
       if [[ ! -d vendor ]]; then
         docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer install
       fi
-  cache:
-    key: vendor
-    paths:
-       - ./vendor  
   only:
     - adminpanel
   tags:
