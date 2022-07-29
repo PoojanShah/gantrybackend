@@ -17,19 +17,9 @@ Generate vendor:
       if [[ ! -d vendor ]]; then
         docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer install
       fi
+      docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer update
   only:
     - adminpanel
-  tags:
-    - shell
-
-Update vendor:
-  stage: build
-  script:
-    - docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer update
-  rules:
-    - if: $CI_COMMIT_BRANCH == 'adminpanel'
-      changes:
-        - composer.json
   tags:
     - shell
 
