@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -32,15 +32,15 @@ class ForgotController extends Controller
                     $headers = "Content-type: text/plain; charset=UTF-8\r\n";
                     $headers .= "From: Laravel <info@" . $_SERVER['HTTP_HOST'] . ">\r\n";
 
-                    $message = "Восстановление пароля в панели администратора Maincode\n";
-                    $message .= "Подтвердите смену пароля, перейдя по ссылке: https://" . $_SERVER['HTTP_HOST'] . "/change_password?token_for_password=" . $token_for_password;
+                    $message = "Password recovery\n";
+                    $message .= "Confirm password change by clicking on the link: http://" . $_SERVER['HTTP_HOST'] . "/change_password?token_for_password=" . $token_for_password;
 
-                    mail($to, 'Восстановление пароля в панели администратора Maincode', $message, $headers);
+                    mail($to, 'Password recovery', $message, $headers);
 
-                    $success = 'Подтвердите обновление, перейдя по ссылке в Email ' . $old_user->email;
+                    $success = 'Confirm the update by clicking on the link in your email ' . $old_user->email;
                 }
                 else {
-                    $error = "Такого Email не существует!";
+                    $error = "This email does not exist!";
                 }
             }
         }

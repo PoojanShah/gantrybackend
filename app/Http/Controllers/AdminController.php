@@ -37,28 +37,6 @@ class AdminController extends BaseController
 
         $data['user'] = $request->user();
 
-        if(!empty($request->get('status'))) {
-            $data['orders'] = DB::table('orders')->where(['status' => $request->get('status')])->orderBy('order_id', 'desc')->get();
-        }
-        else {
-            $data['orders'] = DB::table('orders')->orderBy('order_id', 'desc')->get();
-        }
-
-        /*$data['sends'] = DB::table('sends')->orderBy('date', 'desc')->limit(10)->get();
-        $data['resumes'] = DB::table('resumes')->orderBy('date', 'desc')->limit(10)->get();*/
-
-
-        //$data['count_products'] = DB::table('products')->count();
-
-        //$data['count_messages'] = DB::table('messages')->count();
-        //$data['count_messages'] = 0;
-
-        //$subscribers = DB::table('subscribe');
-
-        //$data['count_subscribers'] = $subscribers->count();
-
-        //$data['subscribers'] = $subscribers->limit(8)->orderBy('id', 'desc')->get();
-
         return view('admin.index', ['data' => $data]);
     }
 
@@ -1303,7 +1281,7 @@ class AdminController extends BaseController
 
     static function breadcrumbs($title, $href) {
         $breadcrumbs[] = [
-            'title' => 'Главная',
+            'title' => 'Home',
             'href' => '/admin/',
         ];
 

@@ -21,23 +21,23 @@ Route::get('/', function () {
 
 
 //Users
-Route::get('/admin/users/', 'Admin\UsersController@users');
-Route::get('/admin/users/delete/', 'Admin\UsersController@usersDelete');
-Route::get('/admin/users/add/', 'Admin\UsersController@usersAdd');
-Route::post('/admin/users/add/', 'Admin\UsersController@usersPostAdd');
-Route::get('/admin/users/edit/{id?}', 'Admin\UsersController@usersEdit');
-Route::post('/admin/users/edit/{id?}', 'Admin\UsersController@usersPostEdit');
+Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users');
+Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete');
+Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd');
+Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd');
+Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit');
+Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit');
 
 
-Route::get('/admin/profile', 'Admin\ProfileController@index')->name('profile');
-Route::post('/admin/profile', 'Admin\ProfileController@index')->name('profile');
-Route::get('/admin/change_profile', 'Admin\ProfileController@change');
+Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
+Route::post('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
+Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileController@change');
 Route::get('/admin/change-status', 'AdminController@changeStatus');
 Route::get('/admin/image', 'AdminController@image');
 
-Route::get('/forgot', 'Auth\ForgotController@index')->name('forgot');
-Route::post('/forgot', 'Auth\ForgotController@index')->name('forgot');
-Route::get('/change_password', 'Auth\ForgotController@change');
+Route::get('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
+Route::post('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
+Route::get('/change_password', '\App\Http\Controllers\Auth\ForgotController@change');
 
 //Dashboard
 Route::get('/admin/', [AdminController::class, 'index'])->name('admin');
@@ -180,15 +180,7 @@ Route::get('/admin/attributes/', 'AdminController@attributes');
 Route::post('/admin/attributes/save/', 'AdminController@attributesSave');
 Route::get('/admin/attributes/delete/', 'AdminController@attributesDelete');
 
-/*Route::get('/admin/messages/', 'AdminController@index');
-Route::get('/admin/subscribers/', 'AdminController@subscribers');
-Route::get('/admin/subscribers/delete/', 'AdminController@subscribersDelete');
 
-
-Route::get('/admin/slider/', 'AdminController@slider');
-Route::post('/admin/slider/save/', 'AdminController@sliderSave');*/
-
-/* ******************************************************************** */
 
 
 Route::get('/admin/login/', [

@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         <div class="copyright ml-auto">
-            &copy; <?= date('Y'); ?> |  made with <i class="la la-heart heart text-danger"></i> by <a target="_blank" href="mailto:k.makienko1990@gmail.com">k.makienko1990@gmail.com</a>
+            &copy; <?= date('Y'); ?>
         </div>
     </div>
 </footer>

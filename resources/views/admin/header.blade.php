@@ -73,6 +73,7 @@
     <div class="sidebar">
         <div class="scrollbar-inner sidebar-wrapper">
             <ul class="nav">
+                <?php /*
                 <li class="nav-item <?php if($link == '') { ?>active<?php } ?>">
                     <a href="/admin/">
                         <i class="la la-dashboard"></i>
@@ -186,11 +187,13 @@
                     </a>
                 </li>
 
+                */ ?>
+
                 <?php if($data['user']->superadmin == 1) { ?>
                 <li class="nav-item <?php if($link == 'users') { ?>active<?php } ?>">
                     <a href="/admin/users/">
                         <i class="la la-users"></i>
-                        <p>Администраторы</p>
+                        <p>Users</p>
                     </a>
                 </li>
                 <?php } ?>
