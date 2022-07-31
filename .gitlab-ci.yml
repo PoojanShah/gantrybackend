@@ -19,7 +19,7 @@ Generate vendor:
       fi
       docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer update
   only:
-    - adminpanel
+    - main
   tags:
     - shell
 
@@ -31,7 +31,7 @@ Build:
     - docker build -f Dockerfile -t $IMAGE_TAG .
     - docker push $IMAGE_TAG
   only:
-    - adminpanel
+    - main
   tags:
     - shell
 
@@ -44,6 +44,6 @@ Deployment:
     # - if git diff HEAD^ HEAD ./mysql/mysql.cnf | grep -q mysql; then docker-compose stop db && docker-compose up -d; fi
     # - if git diff HEAD^ HEAD ./nginx/cond.d/app.conf | grep -q nginx; then docker-compose stop webserver && docker-compose up -d; fi
   only:
-    - adminpanel
+    - main
   tags:
     - shell
