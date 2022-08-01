@@ -15,16 +15,6 @@ resource "google_compute_firewall" "default" {
       ports    = [allow.value]
     }
   }
-
-  #   allow {
-  #     protocol = "tcp"
-  #     ports    = ["22"]
-  #   }
-  #   allow {
-  #     protocol = "tcp"
-  #     ports    = ["80", "8080", "1000-2000"]
-  #   }
-
   source_tags   = ["php-backend"]
   source_ranges = [var.CIDRblock]
 }
@@ -35,3 +25,4 @@ resource "google_compute_subnetwork" "test_network_subnetwork" {
   network       = google_compute_network.this.self_link
   ip_cidr_range = var.subnetCIDRblock
 }
+
