@@ -12,6 +12,8 @@ CIDRblock = "0.0.0.0/0"
 
 projectName = "gantrybackend"
 
+dns_zone_name = "gantry"
+
 disk_type = "pd-standard"
 
 user = "gantryadmin"
