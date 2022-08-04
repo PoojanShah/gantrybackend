@@ -19,6 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Videos
+Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video');
+Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete');
+Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit');
+Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit');
+Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd');
+Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd');
+
 
 //Users
 Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users');
