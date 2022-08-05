@@ -607,6 +607,25 @@
         }
     }
 
+    function deleteVideoItem(id, that) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            $.ajax({
+                type: 'GET',
+                url: '/admin/video/delete/',
+                data: {id: id},
+                success: function (data) {
+                    console.log(data);
+                    that.parent().parent().remove();
+                },
+                error: function () {
+
+                }
+            });
+        } else {
+            return false;
+        }
+    }
+
     function deleteSliderItem(id, that) {
         if (confirm('Are you sure you want to delete this item?')) {
             $.ajax({
