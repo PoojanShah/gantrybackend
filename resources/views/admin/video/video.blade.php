@@ -44,7 +44,7 @@
                                 <tr>
                                     <th scope="col">Sort</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Thumbnail</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>

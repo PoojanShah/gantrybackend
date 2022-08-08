@@ -87,7 +87,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Video</label>
-                                        <input type="file" name="video" class="form-control-file" accept="mp4" required>
+                                        <input type="file" name="video" class="form-control-file" accept="mp4">
                                     </div>
 
                                 </div>
