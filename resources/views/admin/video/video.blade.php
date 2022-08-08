@@ -44,7 +44,6 @@
                                 <tr>
                                     <th scope="col">Sort</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Image</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
@@ -56,8 +55,7 @@
                                 foreach ($data['video'] as $item) { ?>
                                 <tr>
                                     <td width="80px"><?= $item->sort; ?></td>
-                                    <td width="80px"><?= $item->title; ?></td>
-                                    <td width="100px"><img src="<?= $item->image; ?>"></td>
+                                    <td><?= $item->title; ?></td>
                                     <td width="200px">
                                         <?php if($item->status == 1) { ?>On<?php } else { ?>Off<?php } ?>
                                     </td>
