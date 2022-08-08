@@ -23,6 +23,8 @@ class VideoController extends BaseController
                         'image' => (!empty($video->image)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->image : '',
                         'video' => (!empty($video->video)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->video : '',
                         'sort' => $video->sort,
+                        'created_at' => $video->created_at,
+                        'updated_at' => $video->updated_at,
                     ];
                 }
             }
