@@ -156,6 +156,7 @@ class VideoController extends BaseController
                 'sort' => $request->sort ? $request->sort : 0,
                 'status' => $request->status,
                 'title' => $request->title,
+                'updated_at' => DB::raw('now()'),
             ]
         );
 
@@ -231,7 +232,9 @@ class VideoController extends BaseController
                 'video' => $video,
                 'sort' => $request->sort ? $request->sort : 0,
                 'status' => $request->status,
-                'title' => $request->title
+                'title' => $request->title,
+                'created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()'),
             ]
         );
 
