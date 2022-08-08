@@ -178,6 +178,7 @@ class UsersController extends BaseController
                 if(!empty($request->post('password'))) {
                     $password = Hash::make($request->post('password'));
                     DB::table('users')->where('id', $request->id)->update([
+                        'name' => $request->post('name'),
                         'email' => $request->post('email'),
                         'password' => $password,
                         'superadmin' => $request->post('superadmin'),
@@ -185,6 +186,7 @@ class UsersController extends BaseController
                 }
                 else {
                     DB::table('users')->where('id', $request->id)->update([
+                        'name' => $request->post('name'),
                         'email' => $request->post('email'),
                         'superadmin' => $request->post('superadmin'),
                     ]);
@@ -215,9 +217,13 @@ class UsersController extends BaseController
 
                 $password = Hash::make($request->post('password'));
                 DB::table('users')->insert([
+                    'name' => $request->post('name'),
                     'email' => $request->post('email'),
                     'password' => $password,
                     'superadmin' => $request->post('superadmin'),
+                    'new_email' => '',
+                    'new_password' => '',
+                    'token_for_password' => '',
                 ]);
 
                 $request->session()->put('success', 'Successfully added!');

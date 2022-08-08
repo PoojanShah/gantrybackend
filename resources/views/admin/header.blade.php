@@ -191,7 +191,7 @@
                 <li class="nav-item <?php if($link == 'video') { ?>active<?php } ?>">
                     <a href="/admin/video/">
                         <i class="la la-image"></i>
-                        <p>Video</p>
+                        <p>Videos</p>
                     </a>
                 </li>
                 <?php if($data['user']->superadmin == 1) { ?>

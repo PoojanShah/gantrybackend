@@ -55,6 +55,10 @@
                             <div class="card-body row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label for="name">Name*</label>
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="Name" value="<?php if(isset($data['request']['name'])) { echo $data['request']['name']; } ?>" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="title">Email*</label>
                                         <input type="email" name="email" id="email" class="form-control" placeholder="Enter Email" value="<?php if(isset($data['request']['email'])) { echo $data['request']['email']; } ?>" required>
                                         <small id="emailHelp" style="color:#ff0000 !important;position: absolute;" class="form-text text-muted"><?= $data['error_link']; ?></small>
