@@ -73,10 +73,10 @@ class VideoController extends BaseController
 
         $video = DB::table('video')->where('id', '=', $id)->first();
 
-        if(!empty($video->image)) {
+        if(!empty($video->image) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->image)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $video->image);
         }
-        if(!empty($video->image)) {
+        if(!empty($video->video) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->video)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $video->video);
         }
 
