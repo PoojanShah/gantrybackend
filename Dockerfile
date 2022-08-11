@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \ 
     libzip-dev \
+    ca-certificates\
+    sendmail \
     && docker-php-ext-install \
     pdo_mysql \
     sockets \
@@ -32,14 +34,18 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN groupadd -g 1000 www && \
     useradd -u 1000 -ms /bin/bash -g www www
 
+RUN curl -LkSso /usr/bin/mhsendmail 'https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64'&& \
+    chmod 0755 /usr/bin/mhsendmail && \
+    echo 'sendmail_path = "/usr/bin/mhsendmail --smtp-addr=mailhog:1025"' > /usr/local/etc/php/php.ini;
+
 # Copy existing application directory contents
 COPY . /var/www
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www
+# COPY --chown=www:www . /var/www
 
 # Change current user to www
-USER www
+# USER www
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
