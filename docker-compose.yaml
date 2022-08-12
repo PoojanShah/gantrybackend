@@ -3,11 +3,11 @@ services:
   
   #PHP Service
   app:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    # image: backend:php
-    image: gcr.io/extended-method-356910/gantrybackend:prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend:php
+    # image: gcr.io/extended-method-356910/gantrybackend:prod
     container_name: app
     restart: unless-stopped
     tty: true
@@ -36,13 +36,6 @@ services:
     networks:
       - app-network
 
-  mailhog:
-      image: mailhog/mailhog:v1.0.0
-      ports:
-        - "1025:1025"
-        - "8025:8025"
-      networks:
-        - app-network
   #MySQL Service
   db:
     image: mysql:8.0
