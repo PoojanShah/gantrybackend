@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \ 
     libzip-dev \
+    ca-certificates\
+    sendmail \
     && docker-php-ext-install \
     pdo_mysql \
     sockets \
@@ -36,10 +38,10 @@ RUN groupadd -g 1000 www && \
 COPY . /var/www
 
 # Copy existing application directory permissions
-COPY --chown=www:www . /var/www
+# COPY --chown=www:www . /var/www
 
 # Change current user to www
-USER www
+# USER www
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
