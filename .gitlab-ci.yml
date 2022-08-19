@@ -38,8 +38,8 @@ Build:
 Deployment: 
   stage: deploy
   script:
-    - cp -ar ./* /home/gantrybackend
-    - cd /home/gantrybackend
+    - cp -ar ./* /home/gantryadmin
+    - cd /home/gantryadmin
     - docker pull $IMAGE_TAG
     - docker-compose stop app
     - docker-compose up -d
