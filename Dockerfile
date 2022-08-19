@@ -34,10 +34,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN groupadd -g 1000 www && \
     useradd -u 1000 -ms /bin/bash -g www www
 
-RUN curl -LkSso /usr/bin/mhsendmail 'https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64'&& \
-    chmod 0755 /usr/bin/mhsendmail && \
-    echo 'sendmail_path = "/usr/bin/mhsendmail --smtp-addr=mailhog:1025"' > /usr/local/etc/php/php.ini;
-
 # Copy existing application directory contents
 COPY . /var/www
 

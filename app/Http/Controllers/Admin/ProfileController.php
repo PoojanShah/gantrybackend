@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Exception;
 use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Mail;
+use Mail;
 
 class ProfileController extends Controller
 {
@@ -40,21 +42,26 @@ class ProfileController extends Controller
 
                     $to = $old_user->email;
 
-                    $headers = "Content-type: text/plain; charset=UTF-8\r\n";
-                    $headers .= "From: Laravel <info@".$_SERVER['HTTP_HOST'].">\r\n";
+                    //$headers = "Content-type: text/plain; charset=UTF-8\r\n";
+                    //$headers .= "From: Laravel <info@".$_SERVER['HTTP_HOST'].">\r\n";
 
-                    $message = "Запрошено обновление Вашего Email администратора в панели администратора\n";
-                    $message .= "Старый Email: ".$old_user->email."\n";
-                    $message .= "Новый Email: ".$request->email."\n";
-                    $message .= "Подтвердите смену Email, перейдя по ссылке: https://".$_SERVER['HTTP_HOST']."/admin/change_profile?new_email=".$request->email;
+                    $messages = "Requested to update your admin Email in admin panel<br>\n";
+                    $messages .= "Old Email: ".$old_user->email."<br>\n";
+                    $messages .= "New Email: ".$request->email."<br>\n";
+                    $messages .= "Confirm the change of Email by clicking on the link: https://".$_SERVER['HTTP_HOST']."/admin/change_profile?new_email=".$request->email;
 
-                    mail($to, 'Смена Email в панели администратора', $message, $headers);
+                    Mail::send('mailView', ["data"=>$messages], function($message) use ($to) {
+                        $message->to($to);
+                        $message->subject('Change Email at admin panel - Enspirations');
+                    });
 
-                    $success = 'Подтвердите обновление, перейдя по ссылке в Email '.$old_user->email;
+                    //mail($to, 'Смена Email в панели администратора', $message, $headers);
+
+                    $success = 'Confirm the change of Email by clicking on the link at Email '.$old_user->email;
                 }
                 else {
                     if (strlen($request->password) < 5) {
-                        $error = 'Длина пароля должна быть не менее 5 символов!';
+                        $error = 'Password length must be at least 5 characters!';
                     } else {
                         $token_for_password = Hash::make(date("Y-m-d H:i:s"));
 
@@ -65,22 +72,26 @@ class ProfileController extends Controller
                         ]);
                         $to = $old_user->email;
 
-                        $headers = "Content-type: text/plain; charset=UTF-8\r\n";
-                        $headers .= "From: Laravel <info@".$_SERVER['HTTP_HOST'].">\r\n";
+                        //$headers = "Content-type: text/plain; charset=UTF-8\r\n";
+                        //$headers .= "From: Laravel <info@".$_SERVER['HTTP_HOST'].">\r\n";
 
-                        $message = "Запрошено обновление Вашего Email/Пароля администратора в панели администратора\n";
-                        $message .= "Старый Email: ".$old_user->email."\n";
-                        $message .= "Новый Email: ".$request->email."\n";
-                        $message .= "Подтвердите смену Email/Пароля, перейдя по ссылке: https://".$_SERVER['HTTP_HOST']."/admin/change_profile?new_email=".$request->email."&token_for_password=".$token_for_password;
+                        $messages = "You have been requested to update your Admin Email/Password in the Admin Panel<br>\n";
+                        $messages .= "Old Email: ".$old_user->email."<br>\n";
+                        $messages .= "New Email: ".$request->email."<br>\n";
+                        $messages .= "Confirm the change of Email/Password by clicking on the link: https://".$_SERVER['HTTP_HOST']."/admin/change_profile?new_email=".$request->email."&token_for_password=".$token_for_password;
 
-                        mail($to, 'Смена Email/Пароля в панели администратора', $message, $headers);
+                        Mail::send('mailView', ["data"=>$messages], function($message) use ($to) {
+                            $message->to($to);
+                            $message->subject('Change Email at admin panel - Enspirations');
+                        });
+                        //mail($to, 'Смена Email/Пароля в панели администратора', $message, $headers);
 
-                        $success = 'Подтвердите обновление, перейдя по ссылке в Email '.$old_user->email;
+                        $success = 'Confirm the change of Email/Password by clicking on the link at Email '.$old_user->email;
                     }
                 }
             }
             else {
-                $error = 'Введите правильный Email!';
+                $error = 'Enter correct Email!';
             }
         }
         $user = User::first();
@@ -101,7 +112,7 @@ class ProfileController extends Controller
                         'email' => $user->new_email,
                         'new_email' => ''
                     ]);
-                    echo "Успешно обновлено!";
+                    echo "Updated Successfully!";
                 }
                 else {
                     echo "Error!";
@@ -123,7 +134,7 @@ class ProfileController extends Controller
                                 'new_password' => '',
                                 'token_for_password' => ''
                             ]);
-                            echo "Успешно обновлено!";
+                            echo "Updated Successfully!";
                         }
                         else {
                             echo "Error!";

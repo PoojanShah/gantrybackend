@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MailGunController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
@@ -72,3 +73,5 @@ Route::get('/admin/logout/', [
     'as' => 'logout',
     'uses' => '\App\Http\Controllers\Auth\LoginController@logout'
 ]);
+
+//Route::get('/send-mail-using-mailgun', [MailGunController::class, 'index'])->name('send.mail.using.mailgun.index');

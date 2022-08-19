@@ -79,6 +79,9 @@ class VideoController extends BaseController
         if(!empty($video->video) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->video)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $video->video);
         }
+        if(!empty($video->thumbnail) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->thumbnail)) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $video->thumbnail);
+        }
 
         DB::table('video')->delete($id);
     }
@@ -148,11 +151,23 @@ class VideoController extends BaseController
             $video = '/uploadfiles/' . $this_date . $request->video->getClientOriginalName();
         }
 
+        $thumbnail = $db_link->thumbnail;
+
+
+        $uploadedFile3 = $request->file('thumbnail');
+        if (isset($uploadedFile3)) {
+            if ($uploadedFile3->isValid()) {
+                $uploadedFile3->move('uploadfiles/', $this_date . $request->thumbnail->getClientOriginalName());
+            }
+            $thumbnail = '/uploadfiles/' . $this_date . $request->thumbnail->getClientOriginalName();
+        }
+
 
         DB::table('video')->where('id', $request->id)->update(
             [
                 'image' => $image,
                 'video' => $video,
+                'thumbnail' => $thumbnail,
                 'sort' => $request->sort ? $request->sort : 0,
                 'status' => $request->status,
                 'title' => $request->title,
@@ -209,6 +224,7 @@ class VideoController extends BaseController
 
         $image = '';
         $video = '';
+        $thumbnail = '';
 
         $uploadedFile = $request->file('image');
         if (isset($uploadedFile)) {
@@ -226,10 +242,19 @@ class VideoController extends BaseController
             $video = '/uploadfiles/' . $this_date . $request->video->getClientOriginalName();
         }
 
+        $uploadedFile3 = $request->file('thumbnail');
+        if (isset($uploadedFile3)) {
+            if ($uploadedFile3->isValid()) {
+                $uploadedFile3->move('uploadfiles/', $this_date . $request->thumbnail->getClientOriginalName());
+            }
+            $thumbnail = '/uploadfiles/' . $this_date . $request->thumbnail->getClientOriginalName();
+        }
+
         DB::table('video')->insert(
             [
                 'image' => $image,
                 'video' => $video,
+                'thumbnail' => $thumbnail,
                 'sort' => $request->sort ? $request->sort : 0,
                 'status' => $request->status,
                 'title' => $request->title,
