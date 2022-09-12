@@ -103,7 +103,7 @@
                                                 <source src="<?= $data['video']->video; ?>" type="video/mp4">
                                             </video>
                                         <?php } else { ?>
-                                            <img <?php if(empty($data['video']->video)) { ?>style="display: none;"<?php } ?> src="<?= $data['video']->video; ?>" id="outputs_image" class="create-event__file-preview"/>
+                                            <img <?php if(empty($data['video']->video)) { ?>style="display: none;"<?php } else { echo "style='width:100px;'";} ?> src="<?= $data['video']->video; ?>" id="outputs_image" class="create-event__file-preview"/>
                                         <?php } ?>
                                     </div>
 
