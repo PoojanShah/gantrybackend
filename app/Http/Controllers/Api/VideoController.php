@@ -35,4 +35,15 @@ class VideoController extends BaseController
             return response()->json(['Unauthorized'], 401);
         }
     }
+
+    public function getMessages(Request $request)
+    {
+        $token = $request->token;
+        if ($token === env('API_TOKEN')) {
+            $data = ['test' => true];
+            return response()->json($data, 200);
+        } else {
+            return response()->json(['Unauthorized'], 401);
+        }
+    }
 }
