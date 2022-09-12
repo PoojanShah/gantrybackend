@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body">
+                                <div class="card-body" style="display: none">
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1">Image</label>
                                         <input type="file" name="image" class="form-control-file" onchange="previewImage(event)" accept="image/jpeg,image/png,image/gif" id="exampleFormControlFile1">
@@ -96,11 +96,15 @@
 
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label>Video</label>
-                                        <input type="file" name="video" class="form-control-file" accept="mp4">
-                                        <video controls style="width:300px; <?php if(empty($data['video']->video)) { ?>display: none;<?php } ?>">
-                                            <source src="<?= $data['video']->video; ?>" type="video/mp4">
-                                        </video>
+                                        <label>Media</label>
+                                        <input type="file" name="video" class="form-control-file" accept="image/jpeg,image/png,image/gif,mp4">
+                                        <?php if(pathinfo($data['video']->video, PATHINFO_EXTENSION) == 'mp4') { ?>
+                                            <video controls style="width:300px; <?php if(empty($data['video']->video)) { ?>display: none;<?php } ?>">
+                                                <source src="<?= $data['video']->video; ?>" type="video/mp4">
+                                            </video>
+                                        <?php } else { ?>
+                                            <img <?php if(empty($data['video']->video)) { ?>style="display: none;"<?php } else { echo "style='width:100px;'";} ?> src="<?= $data['video']->video; ?>" id="outputs_image" class="create-event__file-preview"/>
+                                        <?php } ?>
                                     </div>
 
                                 </div>
