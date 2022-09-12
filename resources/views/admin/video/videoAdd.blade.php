@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card-body">
+                                <div class="card-body" style="display: none">
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1">Image</label>
                                         <input type="file" name="image" class="form-control-file" onchange="previewImage(event)" accept="image/jpeg,image/png,image/gif" id="exampleFormControlFile1">
@@ -95,8 +95,8 @@
 
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label>Video</label>
-                                        <input type="file" name="video" class="form-control-file" accept="mp4">
+                                        <label>Media</label>
+                                        <input type="file" name="video" class="form-control-file" accept="image/jpeg,image/png,image/gif,mp4">
                                     </div>
 
                                 </div>
