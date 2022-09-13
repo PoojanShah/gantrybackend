@@ -136,9 +136,9 @@ class VideoController extends BaseController
         $uploadedFile = $request->file('image');
         if (isset($uploadedFile)) {
             if ($uploadedFile->isValid()) {
-                $uploadedFile->move('uploadfiles/', $this_date . $request->image->getClientOriginalName());
+                $uploadedFile->move('uploadfiles/', $this_date. '_' . $request->image->getClientOriginalName());
             }
-            $image = '/uploadfiles/' . $this_date . $request->image->getClientOriginalName();
+            $image = '/uploadfiles/' . $this_date. '_' . $request->image->getClientOriginalName();
         }
 
         $video = $db_link->video;
@@ -146,9 +146,9 @@ class VideoController extends BaseController
         $uploadedFile2 = $request->file('video');
         if (isset($uploadedFile2)) {
             if ($uploadedFile2->isValid()) {
-                $uploadedFile2->move('uploadfiles/', $this_date . $request->video->getClientOriginalName());
+                $uploadedFile2->move('uploadfiles/', $this_date. '_' . $request->video->getClientOriginalName());
             }
-            $video = '/uploadfiles/' . $this_date . $request->video->getClientOriginalName();
+            $video = '/uploadfiles/' . $this_date. '_' . $request->video->getClientOriginalName();
         }
 
         $thumbnail = $db_link->thumbnail;
@@ -157,9 +157,9 @@ class VideoController extends BaseController
         $uploadedFile3 = $request->file('thumbnail');
         if (isset($uploadedFile3)) {
             if ($uploadedFile3->isValid()) {
-                $uploadedFile3->move('uploadfiles/', $this_date . $request->thumbnail->getClientOriginalName());
+                $uploadedFile3->move('uploadfiles/', $this_date. '_' . $request->thumbnail->getClientOriginalName());
             }
-            $thumbnail = '/uploadfiles/' . $this_date . $request->thumbnail->getClientOriginalName();
+            $thumbnail = '/uploadfiles/' . $this_date. '_' . $request->thumbnail->getClientOriginalName();
         }
 
 
@@ -229,25 +229,25 @@ class VideoController extends BaseController
         $uploadedFile = $request->file('image');
         if (isset($uploadedFile)) {
             if ($uploadedFile->isValid()) {
-                $uploadedFile->move('uploadfiles/', $this_date . $request->image->getClientOriginalName());
+                $uploadedFile->move('uploadfiles/', $this_date. '_' . $request->image->getClientOriginalName());
             }
-            $image = '/uploadfiles/' . $this_date . $request->image->getClientOriginalName();
+            $image = '/uploadfiles/' . $this_date. '_' . $request->image->getClientOriginalName();
         }
 
         $uploadedFile2 = $request->file('video');
         if (isset($uploadedFile2)) {
             if ($uploadedFile2->isValid()) {
-                $uploadedFile2->move('uploadfiles/', $this_date . $request->video->getClientOriginalName());
+                $uploadedFile2->move('uploadfiles/', $this_date. '_' . $request->video->getClientOriginalName());
             }
-            $video = '/uploadfiles/' . $this_date . $request->video->getClientOriginalName();
+            $video = '/uploadfiles/' . $this_date. '_' . $request->video->getClientOriginalName();
         }
 
         $uploadedFile3 = $request->file('thumbnail');
         if (isset($uploadedFile3)) {
             if ($uploadedFile3->isValid()) {
-                $uploadedFile3->move('uploadfiles/', $this_date . $request->thumbnail->getClientOriginalName());
+                $uploadedFile3->move('uploadfiles/', $this_date. '_' . $request->thumbnail->getClientOriginalName());
             }
-            $thumbnail = '/uploadfiles/' . $this_date . $request->thumbnail->getClientOriginalName();
+            $thumbnail = '/uploadfiles/' . $this_date. '_' . $request->thumbnail->getClientOriginalName();
         }
 
         DB::table('video')->insert(
