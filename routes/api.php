@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('media', '\App\Http\Controllers\Api\VideoController@getMedia');
 Route::get('videos', '\App\Http\Controllers\Api\VideoController@getVideos');
 Route::get('messages', '\App\Http\Controllers\Api\VideoController@getMessages');
