@@ -57,6 +57,13 @@
                                         <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" value="<?php if(isset($data['request']['title'])) { echo $data['request']['title']; } ?>" required>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="date">Tags</label>
+                                        <input style="width:200px;" type="text" name="tag_1" class="form-control" placeholder="Tag 1">
+                                        <input style="width:200px;" type="text" name="tag_2" class="form-control" placeholder="Tag 2">
+                                        <input style="width:200px;" type="text" name="tag_3" class="form-control" placeholder="Tag 3">
+                                    </div>
+
                                     <div class="form-check">
                                         <label>Status</label><br>
                                         <label class="form-radio-label">

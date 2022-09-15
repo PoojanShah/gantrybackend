@@ -58,6 +58,13 @@
                                         <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" value="<?php if(isset($data['video']->title)) { echo $data['video']->title; } ?>" required>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="date">Tags</label>
+                                        <input style="width:200px;" type="text" name="tag_1" class="form-control" placeholder="Tag 1" value="<?php if(isset($data['video']->tag_1)) { echo $data['video']->tag_1; } ?>">
+                                        <input style="width:200px;" type="text" name="tag_2" class="form-control" placeholder="Tag 2" value="<?php if(isset($data['video']->tag_2)) { echo $data['video']->tag_2; } ?>">
+                                        <input style="width:200px;" type="text" name="tag_3" class="form-control" placeholder="Tag 3" value="<?php if(isset($data['video']->tag_3)) { echo $data['video']->tag_3; } ?>">
+                                    </div>
+
                                     <div class="form-check">
                                         <label>Status</label><br>
                                         <label class="form-radio-label">

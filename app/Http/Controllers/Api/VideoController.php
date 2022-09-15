@@ -17,12 +17,24 @@ class VideoController extends BaseController
             $data = [];
             if(!empty($videos)) {
                 foreach ($videos as $video) {
+                    $tags = [];
+                    if(!empty($video->tag_1)) {
+                        $tags[] = $video->tag_1;
+                    }
+                    if(!empty($video->tag_2)) {
+                        $tags[] = $video->tag_2;
+                    }
+                    if(!empty($video->tag_3)) {
+                        $tags[] = $video->tag_3;
+                    }
+
                     $data[] = [
                         'id' => $video->id,
                         'title' => $video->title,
                         //'image' => (!empty($video->image)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->image : '',
                         'thumbnail' => (!empty($video->thumbnail)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->thumbnail : '',
                         'media' => (!empty($video->video)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->video : '',
+                        'tags' => $tags,
                         'sort' => $video->sort,
                         'created_at' => $video->created_at,
                         'updated_at' => $video->updated_at,
