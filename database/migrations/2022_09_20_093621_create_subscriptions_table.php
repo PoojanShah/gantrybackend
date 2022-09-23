@@ -17,11 +17,13 @@ return new class extends Migration {
             $table->unsignedBigInteger('zoho_subscription_id')->unique();
             $table->unsignedBigInteger('zoho_product_id');
             $table->string('plan_code');
-            $table->string('previous_subscription_status')->nullable();
+            $table->unsignedBigInteger('zoho_plan_id');
+            $table->string('previous_subscription_status');
             $table->string('subscription_status');
             $table->string('modified_at');
-            $table->unsignedBigInteger('zoho_customer_id');
-            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('zoho_customer_id')->unique();
+            $table->unsignedBigInteger('customer_id')->unique();
+            $table->string('customer_email');
             $table->timestamps();
         });
     }

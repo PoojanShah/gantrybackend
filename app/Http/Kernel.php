@@ -2,9 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\ApiToken;
-use App\Http\Middleware\InstallationIdHeaderRequired;
-use App\Http\Middleware\SuperAdminAccessOnly;
 use App\Http\Middleware\ZohoHookAuthenticated;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -68,8 +65,5 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'zoho.hook.auth' => ZohoHookAuthenticated::class,
-        'api.token' => ApiToken::class,
-        'header.installationId' => InstallationIdHeaderRequired::class,
-        'auth.superAdminAccessOnly' => SuperAdminAccessOnly::class,
     ];
 }

@@ -5,23 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Subscription extends Model
 {
     use HasFactory;
 
-    public const LIVE  = 'live';
-    public const TRIAL  = 'trial';
-
-    public const ACTIVE_STATUSES = [
-        self::LIVE,
-        self::TRIAL
-    ];
-
     protected $fillable = [
         'zoho_subscription_id',
         'zoho_product_id',
         'plan_code',
+        'zoho_plan_id',
         'previous_subscription_status',
         'subscription_status',
         'modified_at',
