@@ -23,7 +23,6 @@ return new class extends Migration {
             $table->string('modified_at');
             $table->unsignedBigInteger('zoho_customer_id')->unique();
             $table->unsignedBigInteger('customer_id')->unique();
-            $table->string('customer_email');
             $table->timestamps();
         });
     }

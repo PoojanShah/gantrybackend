@@ -18,4 +18,4 @@ Route::get('media', '\App\Http\Controllers\Api\VideoController@getMedia');
 Route::get('videos', '\App\Http\Controllers\Api\VideoController@getVideos');
 Route::get('messages', '\App\Http\Controllers\Api\VideoController@getMessages');
 Route::post('subscriptions', '\App\Http\Controllers\Api\SubscriptionController@createOrUpdate')->middleware('zoho.hook.auth');
-Route::get('installations/{installation_id}/subscription', '\App\Http\Controllers\Api\SubscriptionController@getClientSubscription');
+Route::post('installations/subscription', '\App\Http\Controllers\Api\SubscriptionController@getClientSubscription');

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('video', function (Blueprint $table) {
-            $table->unsignedBigInteger('zoho_addon_code')->nullable();
+            $table->string('zoho_addon_code')->unique()->nullable();
         });
     }
 

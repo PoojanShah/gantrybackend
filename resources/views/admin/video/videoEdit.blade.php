@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="date">Zoho addon alias</label>
-                                        <input type="text" name="zoho_addon_code" class="form-control"  value="<?= $data['video']->zoho_addon_code ? $data['video']->zoho_addon_code : ''; ?>" aria-describedby="addonHelpInline">
+                                        <input type="text" name="zoho_addon_code" class="form-control" value="" aria-describedby="addonHelpInline">
                                         <small id="addonHelpInline" class="form-text text-muted">
                                             Value of 'Addon Code' field in Zoho subscriptions addons. Leave it empty, if video should be available for all subscriptions
                                         </small>
@@ -111,7 +111,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Media</label>
-                                        <input type="file" name="video" class="form-control-file" accept="image/jpeg,image/png,image/gif,video/mp4,video/quicktime,video/x-msvideo,ideo/x-flv">
+                                        <input type="file" name="video" class="form-control-file" accept="image/jpeg,image/png,image/gif,mp4">
                                         <?php if(pathinfo($data['video']->video, PATHINFO_EXTENSION) == 'mp4') { ?>
                                             <video controls style="width:300px; <?php if(empty($data['video']->video)) { ?>display: none;<?php } ?>">
                                                 <source src="<?= $data['video']->video; ?>" type="video/mp4">
