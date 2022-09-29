@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('zoho_product_id');
             $table->string('plan_code');
             $table->unsignedBigInteger('zoho_plan_id');
-            $table->string('previous_subscription_status');
+            $table->string('previous_subscription_status')->nullable();
             $table->string('subscription_status');
             $table->string('modified_at');
             $table->unsignedBigInteger('zoho_customer_id')->unique();

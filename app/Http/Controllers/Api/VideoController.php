@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Customer;
+use App\Models\Subscription;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
 
 class VideoController extends BaseController
 {
-    public function getVideos(Request $request, Video $videoModel)
+    public function getVideos(Request $request, Video $videoModel, Customer $customerModel)
     {
-        foreach ($videoModel->getAvailableVideosObjects($request->header('InstallationId')) as $video) {
+        $data = [];
+        $installationId = $request->header('InstallationId');
+
+        if($installationId && !$customerModel->getActiveSubscription($installationId)){
+            return $data;
+        }
+
+        foreach ($videoModel->getAvailableVideosObjects($installationId) as $video) {
             $data[] = [
                 'id' => $video->id,
                 'title' => $video->title,
@@ -25,7 +35,7 @@ class VideoController extends BaseController
             ];
         }
 
-        return response()->json($data, Response::HTTP_OK);
+        return $data;
     }
 
     public function getMedia(Request $request, Video $videoModel)

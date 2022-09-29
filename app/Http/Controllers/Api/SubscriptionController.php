@@ -14,20 +14,22 @@ class SubscriptionController extends BaseController
 {
     public function createOrUpdate(Request $request): Subscription
     {
-        $subscriptionData = $request->post('subscription');
+        $subscriptionData = $request->post('subscription') ?? $request->post('data')['subscription'];
+        $customerData = $subscriptionData['customer'];
 
-        $subscription = Subscription::where('zoho_customer_id', '=', $subscriptionData['customer_id'])
+        $subscription = Subscription::where('zoho_customer_id', '=', $customerData['customer_id'])
             ->where('zoho_subscription_id', '=', $subscriptionData['subscription_id'])
             ->first();
 
-        $customer = Customer::where('zoho_customer_id', $request->post('customer_id'))->first();
+        $customer = Customer::where('zoho_customer_id', $customerData['customer_id'])->first();
+
         if($customer){
             $customer->videos()->detach();
         } else {
             $customer = new Customer();
-            $customer->zoho_customer_id = $subscriptionData['customer_id'];
-            $customer->installation_id = $subscriptionData['customer']['cf_installation_id'];
-            $customer->display_name = $subscriptionData['customer']['display_name'];
+            $customer->zoho_customer_id = $customerData['customer_id'];
+            $customer->installation_id = $customerData['cf_installation_id'];
+            $customer->display_name = $customerData['display_name'];
             $customer->save();
         }
 
@@ -37,7 +39,7 @@ class SubscriptionController extends BaseController
         $subscription->zoho_product_id = $subscriptionData['product_id'];
         $subscription->plan_code = $subscriptionData['plan']['plan_code'];
         $subscription->zoho_plan_id = $subscriptionData['plan']['plan_id'];
-        $subscription->previous_subscription_status = $subscriptionData['previous_attribute']['status'];
+        $subscription->previous_subscription_status = $subscriptionData['previous_attribute']['status'] ?? null;
         $subscription->subscription_status = $subscriptionData['status'];
         $subscription->modified_at = $subscriptionData['updated_time'];
         $subscription->zoho_customer_id = $subscriptionData['customer_id'];

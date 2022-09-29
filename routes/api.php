@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('media', '\App\Http\Controllers\Api\VideoController@getMedia')->middleware('api.token');
 Route::get('videos', '\App\Http\Controllers\Api\VideoController@getVideos')->middleware('api.token');
 Route::get('messages', '\App\Http\Controllers\Api\VideoController@getMessages')->middleware('api.token');
-Route::post('subscriptions', '\App\Http\Controllers\Api\SubscriptionController@createOrUpdate')->middleware(['zoho.hook.auth', 'api.token']);
-Route::post('installations/subscription', '\App\Http\Controllers\Api\SubscriptionController@getClientSubscription')->middleware(['api.token', 'installation.token']);
+Route::post('subscriptions', '\App\Http\Controllers\Api\SubscriptionController@createOrUpdate')->middleware(['zoho.hook.auth']);
+Route::post('installations/subscription', '\App\Http\Controllers\Api\SubscriptionController@getClientSubscription')->middleware('api.token');
