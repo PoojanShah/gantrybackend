@@ -56,13 +56,9 @@ class SubscriptionController extends BaseController
 
     public function getClientSubscription(InstallationSubscriptionRequest $request)
     {
-        if($request->token === env('API_TOKEN')) { // TODO move if to middleware
-            return Subscription::whereHas('customer', function ($query) use ($request) {
-                    return $query->where('installation_id', '=', $request->post('localId'));
-            })->first();
-        }
-
-        return response('Unauthorized', Response::HTTP_UNAUTHORIZED);
+        return Subscription::whereHas('customer', function ($query) use ($request) {
+                return $query->where('installation_id', '=', $request->post('localId'));
+        })->first();
     }
 
 }

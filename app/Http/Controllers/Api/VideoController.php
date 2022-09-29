@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Customer;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,42 +9,39 @@ use Illuminate\Routing\Controller as BaseController;
 
 class VideoController extends BaseController
 {
-    public function getVideos(Request $request, Video $videoModel, Customer $customerModel)
+    public function getVideos(Request $request, Video $videoModel)
     {
-        $data = [];
-        $installationId = $request->header('InstallationId');
+        foreach ($videoModel->getAvailableVideosObjects($request->header('InstallationId')) as $video) {
+            $tags = [];
+            if (!empty($video->tag_1)) {
+                $tags[] = $video->tag_1;
+            }
+            if (!empty($video->tag_2)) {
+                $tags[] = $video->tag_2;
+            }
+            if (!empty($video->tag_3)) {
+                $tags[] = $video->tag_3;
+            }
 
-        if ($installationId && !$customerModel->getActiveSubscriptionByInstallationId($installationId)) {
-            return $data;
-        }
-
-        foreach ($videoModel->getAvailableVideosObjects($installationId) as $video) {
             $data[] = [
                 'id' => $video->id,
                 'title' => $video->title,
                 //'image' => (!empty($video->image)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->image : '',
                 'thumbnail' => (!empty($video->thumbnail)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->thumbnail : '',
                 'media' => (!empty($video->video)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->video : '',
-                'tags' => $this->getTagsArray($video),
+                'tags' => $tags,
                 'sort' => $video->sort,
                 'created_at' => $video->created_at,
                 'updated_at' => $video->updated_at,
             ];
         }
 
-        return $data;
+        return response()->json($data, Response::HTTP_OK);
     }
 
-    public function getMedia(Request $request, Video $videoModel, Customer $customerModel)
+    public function getMedia(Request $request, Video $videoModel)
     {
-        $data = [];
-        $installationId = $request->header('InstallationId');
-
-        if ($installationId && !$customerModel->getActiveSubscriptionByInstallationId($installationId)) {
-            return $data;
-        }
-
-        foreach ($videoModel->getAvailableVideosObjects($installationId) as $video) {
+        foreach ($videoModel->getAvailableVideosObjects($request->header('InstallationId')) as $video) {
             $data[] = [
                 'thumbnail' => (!empty($video->thumbnail)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->thumbnail : '',
                 'media' => (!empty($video->video)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->video : '',
@@ -59,21 +55,5 @@ class VideoController extends BaseController
     public function getMessages()
     {
         return response()->json(['test' => true], Response::HTTP_OK);
-    }
-
-    public function getTagsArray($media): array
-    {
-        $tags = [];
-        if (!empty($media->tag_1)) {
-            $tags[] = $media->tag_1;
-        }
-        if (!empty($media->tag_2)) {
-            $tags[] = $media->tag_2;
-        }
-        if (!empty($media->tag_3)) {
-            $tags[] = $media->tag_3;
-        }
-
-        return $tags;
     }
 }

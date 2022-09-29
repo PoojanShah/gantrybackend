@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('subscription_status');
             $table->string('modified_at');
             $table->unsignedBigInteger('zoho_customer_id')->unique();
-            $table->unsignedBigInteger('customer_id')->unique();
+            $table->unsignedBigInteger('customer_id')->unique()->nullable();
             $table->timestamps();
         });
     }

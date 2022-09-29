@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Video;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Array_;
 use Illuminate\Http\Request;
@@ -22,7 +20,7 @@ class VideoController extends BaseController
 
     public function video(Request $request)
     {
-        $data = [];
+        $data = Array();
 
         $data['error'] = '';
         $data['error_link'] = '';
@@ -30,11 +28,12 @@ class VideoController extends BaseController
 
         $data['user'] = $request->user();
 
+        $data['page_title'] = 'Video';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
 
-        $data['breadcrumbs'] = Admin::breadcrumbs(__('Video'), $href);
+        $data['breadcrumbs'] = Admin::breadcrumbs($data['page_title'], $href);
 
         $data['request'] = $request->session()->get('datas');
 
@@ -56,19 +55,10 @@ class VideoController extends BaseController
         $request->session()->forget('request');
 
         $per_page = 10;
-        $query = DB::table('video');
 
-        if (!Auth::user()->isSuperAdmin()) {
-            $query = $query->leftJoin('customer_video', 'video.id', '=', 'customer_video.video_id')
-                ->where('customer_video.customer_id', '=', Auth::user()->customer_id)
-                ->orderBy('customer_video.customer_id', 'asc')
-                ->orderBy('video.sort', 'asc');
-        }
+        $video = DB::table('video')->orderBy('sort', 'asc')->paginate($per_page);
 
-        $query = $query->orderBy('video.sort', 'asc');
-        $video = $query->paginate($per_page);
-        $count = $query->count();
-
+        $count = DB::table('video')->count();
         $data['pagination'] = Admin::lara_pagination($count, $per_page);
 
         $data['video'] = $video;
@@ -83,26 +73,26 @@ class VideoController extends BaseController
 
         $video = DB::table('video')->where('id', '=', $id)->first();
 
-        if (!empty($video->image) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->image)) {
+        if(!empty($video->image) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->image)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $video->image);
         }
-        if (!empty($video->video) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->video)) {
+        if(!empty($video->video) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->video)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $video->video);
         }
-        if (!empty($video->thumbnail) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->thumbnail)) {
+        if(!empty($video->thumbnail) && file_exists($_SERVER['DOCUMENT_ROOT'] . $video->thumbnail)) {
             unlink($_SERVER['DOCUMENT_ROOT'] . $video->thumbnail);
         }
 
         DB::table('video')->delete($id);
     }
 
-    public function videoEdit(Request $request)
-    {
+    public function videoEdit(Request $request) {
 
         $data['user'] = $request->user();
 
         $data['video'] = DB::table('video')->where('id', '=', $request->id)->first();
 
+        $data['page_title'] = 'Edit Video';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
@@ -115,16 +105,17 @@ class VideoController extends BaseController
 
         $data['request'] = $request->session()->get('datas');
 
-        if ($request->session()->has('error')) {
+        if($request->session()->has('error')) {
             $data['error'] = $request->session()->get('error');
         }
-        if ($request->session()->has('error_link')) {
+        if($request->session()->has('error_link')) {
             $data['error_link'] = $request->session()->get('error_link');
         }
 
-        if ($request->session()->has('success')) {
+        if($request->session()->has('success')) {
             $data['success'] = $request->session()->get('success');
         }
+
 
         $request->session()->forget('error');
         $request->session()->forget('error_link');
@@ -133,72 +124,76 @@ class VideoController extends BaseController
         return view('admin.video.videoEdit', ['data' => $data]);
     }
 
-    public function videoPostEdit(Request $request)
-    {
-        $videoModel = Video::where('id', '=', $request->id)->first();
-
+    public function videoPostEdit(Request $request) {
         $data = $_POST;
+
+        $db_link = DB::table('video')->where('id', '=', $request->id)->first();
         $this_date = date('YmdHis');
 
-        $image = $videoModel->image;
-        $video = $videoModel->video;
-        $thumbnail = $videoModel->thumbnail;
+        $image = $db_link->image;
+
 
         $uploadedFile = $request->file('image');
-        if ($uploadedFile && $uploadedFile->isValid()) {
-            if (file_exists(public_path($videoModel->image))) {
-                unlink(public_path($videoModel->image));
+        if (isset($uploadedFile)) {
+            if ($uploadedFile->isValid()) {
+                $uploadedFile->move('uploadfiles/', $this_date. '_' . $request->image->getClientOriginalName());
             }
-            $imageName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->move('uploadfiles/',);
-            $image = '/uploadfiles/' . $imageName;
+            $image = '/uploadfiles/' . $this_date. '_' . $request->image->getClientOriginalName();
         }
+
+        $video = $db_link->video;
 
         $uploadedFile2 = $request->file('video');
-        if ($uploadedFile2 && $uploadedFile2->isValid()) {
-            if (file_exists(public_path($videoModel->video))) {
-                unlink(public_path($videoModel->video));
+        if (isset($uploadedFile2)) {
+            if ($uploadedFile2->isValid()) {
+                $uploadedFile2->move('uploadfiles/', $this_date. '_' . $request->video->getClientOriginalName());
             }
-            $videoName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile2->getClientOriginalExtension();
-            $uploadedFile2->move('uploadfiles/', $videoName);
-            $video = '/uploadfiles/' . $videoName;
+            $video = '/uploadfiles/' . $this_date. '_' . $request->video->getClientOriginalName();
         }
+
+        $thumbnail = $db_link->thumbnail;
+
 
         $uploadedFile3 = $request->file('thumbnail');
-        if ($uploadedFile3 && $uploadedFile3->isValid()) {
-            if (file_exists(public_path($videoModel->thumbnail))) {
-                unlink(public_path($videoModel->thumbnail));
+        if (isset($uploadedFile3)) {
+            if ($uploadedFile3->isValid()) {
+                $uploadedFile3->move('uploadfiles/', $this_date. '_' . $request->thumbnail->getClientOriginalName());
             }
-            $thumbName = $this_date . '_thumb_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
-            $uploadedFile3->move('uploadfiles/', $thumbName);
-            $thumbnail = '/uploadfiles/' . $thumbName;
+            $thumbnail = '/uploadfiles/' . $this_date. '_' . $request->thumbnail->getClientOriginalName();
         }
 
-        $videoModel->image = $image;
-        $videoModel->video = $video;
-        $videoModel->thumbnail = $thumbnail;
-        $videoModel->zoho_addon_code = $request->zoho_addon_code;
-        $videoModel->sort = $request->sort ? $request->sort : 0;
-        $videoModel->status = $request->status;
-        $videoModel->title = $request->title;
-        $videoModel->tag_1 = (!empty($request->tag_1)) ? $request->tag_1 : '';
-        $videoModel->tag_2 = (!empty($request->tag_2)) ? $request->tag_2 : '';
-        $videoModel->tag_3 = (!empty($request->tag_3)) ? $request->tag_3 : '';
-        $videoModel->save();
+
+        DB::table('video')->where('id', $request->id)->update(
+            [
+                'image' => $image,
+                'video' => $video,
+                'thumbnail' => $thumbnail,
+                'zoho_addon_code' => $request->zoho_addon_code,
+                'sort' => $request->sort ? $request->sort : 0,
+                'status' => $request->status,
+                'title' => $request->title,
+                'tag_1' => (!empty($request->tag_1)) ? $request->tag_1 : '',
+                'tag_2' => (!empty($request->tag_2)) ? $request->tag_2 : '',
+                'tag_3' => (!empty($request->tag_3)) ? $request->tag_3 : '',
+                'updated_at' => DB::raw('now()'),
+            ]
+        );
+
 
         $request->session()->put('success', 'Successfully updated!');
 
-        return redirect('/admin/video/edit/' . $request->id)->with(['datas' => $data]);
+        return redirect('/admin/video/edit/'.$request->id)->with( ['datas' => $data] );
     }
 
-    public function videoAdd(Request $request)
-    {
+    public function videoAdd(Request $request) {
+
         $data['user'] = $request->user();
 
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
 
+        $data['page_title'] = 'Add Video';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
@@ -207,16 +202,17 @@ class VideoController extends BaseController
 
         $data['request'] = $request->session()->get('datas');
 
-        if ($request->session()->has('error')) {
+        if($request->session()->has('error')) {
             $data['error'] = $request->session()->get('error');
         }
-        if ($request->session()->has('error_link')) {
+        if($request->session()->has('error_link')) {
             $data['error_link'] = $request->session()->get('error_link');
         }
 
-        if ($request->session()->has('success')) {
+        if($request->session()->has('success')) {
             $data['success'] = $request->session()->get('success');
         }
+
 
         $request->session()->forget('error');
         $request->session()->forget('error_link');
@@ -225,8 +221,7 @@ class VideoController extends BaseController
         return view('admin.video.videoAdd', ['data' => $data]);
     }
 
-    public function videoPostAdd(Request $request)
-    {
+    public function videoPostAdd(Request $request) {
         $data = $_POST;
 
         $this_date = date('YmdHis');
@@ -235,28 +230,28 @@ class VideoController extends BaseController
         $video = '';
         $thumbnail = '';
 
-        if ($uploadedFile = $request->file('image')) {
+        $uploadedFile = $request->file('image');
+        if (isset($uploadedFile)) {
             if ($uploadedFile->isValid()) {
-                $imageName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile->getClientOriginalExtension();
-                $uploadedFile->move('uploadfiles/',);
-                $image = '/uploadfiles/' . $imageName;
+                $uploadedFile->move('uploadfiles/', $this_date. '_' . $request->image->getClientOriginalName());
             }
+            $image = '/uploadfiles/' . $this_date. '_' . $request->image->getClientOriginalName();
         }
 
-        if ($uploadedFile2 = $request->file('video')) {
+        $uploadedFile2 = $request->file('video');
+        if (isset($uploadedFile2)) {
             if ($uploadedFile2->isValid()) {
-                $videoName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile2->getClientOriginalExtension();
-                $uploadedFile2->move('uploadfiles/', $videoName);
-                $video = '/uploadfiles/' . $videoName;
+                $uploadedFile2->move('uploadfiles/', $this_date. '_' . $request->video->getClientOriginalName());
             }
+            $video = '/uploadfiles/' . $this_date. '_' . $request->video->getClientOriginalName();
         }
 
-        if ($uploadedFile3 = $request->file('thumbnail')) {
+        $uploadedFile3 = $request->file('thumbnail');
+        if (isset($uploadedFile3)) {
             if ($uploadedFile3->isValid()) {
-                $thumbName = $this_date . '_thumb_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
-                $uploadedFile3->move('uploadfiles/', $thumbName);
-                $thumbnail = '/uploadfiles/' . $thumbName;
+                $uploadedFile3->move('uploadfiles/', $this_date. '_' . $request->thumbnail->getClientOriginalName());
             }
+            $thumbnail = '/uploadfiles/' . $this_date. '_' . $request->thumbnail->getClientOriginalName();
         }
 
         DB::table('video')->insert(
@@ -277,14 +272,8 @@ class VideoController extends BaseController
         );
 
         $request->session()->put('success', 'Successfully added!');
+        return redirect('/admin/video/')->with( ['datas' => $data] );
 
-        return redirect('/admin/video/')->with(['datas' => $data]);
-
-    }
-
-    private function sanitizeTitle(string $title): string
-    {
-        return htmlspecialchars(str_replace(' ', '_', $title));
     }
 
 }

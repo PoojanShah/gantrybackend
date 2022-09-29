@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="date">Zoho addon alias</label>
-                                        <input type="text" name="zoho_addon_code" class="form-control" value="" aria-describedby="addonHelpInline">
+                                        <input type="text" name="zoho_addon_code" class="form-control"  value="<?= $data['video']->zoho_addon_code ? $data['video']->zoho_addon_code : ''; ?>" aria-describedby="addonHelpInline">
                                         <small id="addonHelpInline" class="form-text text-muted">
                                             Value of 'Addon Code' field in Zoho subscriptions addons. Leave it empty, if video should be available for all subscriptions
                                         </small>
