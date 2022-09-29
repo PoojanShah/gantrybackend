@@ -12,24 +12,13 @@ class VideoController extends BaseController
     public function getVideos(Request $request, Video $videoModel)
     {
         foreach ($videoModel->getAvailableVideosObjects($request->header('InstallationId')) as $video) {
-            $tags = [];
-            if (!empty($video->tag_1)) {
-                $tags[] = $video->tag_1;
-            }
-            if (!empty($video->tag_2)) {
-                $tags[] = $video->tag_2;
-            }
-            if (!empty($video->tag_3)) {
-                $tags[] = $video->tag_3;
-            }
-
             $data[] = [
                 'id' => $video->id,
                 'title' => $video->title,
                 //'image' => (!empty($video->image)) ? 'https://'.$_SERVER['HTTP_HOST'].$video->image : '',
                 'thumbnail' => (!empty($video->thumbnail)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->thumbnail : '',
                 'media' => (!empty($video->video)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->video : '',
-                'tags' => $tags,
+                'tags' => $this->getTagsArray($video),
                 'sort' => $video->sort,
                 'created_at' => $video->created_at,
                 'updated_at' => $video->updated_at,
@@ -55,5 +44,21 @@ class VideoController extends BaseController
     public function getMessages()
     {
         return response()->json(['test' => true], Response::HTTP_OK);
+    }
+
+    private function getTagsArray($media): array
+    {
+        $tags = [];
+        if(!empty($media->tag_1)) {
+            $tags[] = $media->tag_1;
+        }
+        if(!empty($media->tag_2)) {
+            $tags[] = $media->tag_2;
+        }
+        if(!empty($media->tag_3)) {
+            $tags[] = $media->tag_3;
+        }
+
+        return $tags;
     }
 }
