@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Customer;
-use App\Models\Subscription;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Facades\DB;
 
 class VideoController extends BaseController
 {
@@ -17,7 +15,7 @@ class VideoController extends BaseController
         $data = [];
         $installationId = $request->header('InstallationId');
 
-        if($installationId && !$customerModel->getActiveSubscription($installationId)){
+        if ($installationId && !$customerModel->getActiveSubscription($installationId)) {
             return $data;
         }
 
@@ -38,9 +36,16 @@ class VideoController extends BaseController
         return $data;
     }
 
-    public function getMedia(Request $request, Video $videoModel)
+    public function getMedia(Request $request, Video $videoModel, Customer $customerModel)
     {
-        foreach ($videoModel->getAvailableVideosObjects($request->header('InstallationId')) as $video) {
+        $data = [];
+        $installationId = $request->header('InstallationId');
+
+        if ($installationId && !$customerModel->getActiveSubscription($installationId)) {
+            return $data;
+        }
+
+        foreach ($videoModel->getAvailableVideosObjects($installationId) as $video) {
             $data[] = [
                 'thumbnail' => (!empty($video->thumbnail)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->thumbnail : '',
                 'media' => (!empty($video->video)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->video : '',
@@ -59,13 +64,13 @@ class VideoController extends BaseController
     private function getTagsArray($media): array
     {
         $tags = [];
-        if(!empty($media->tag_1)) {
+        if (!empty($media->tag_1)) {
             $tags[] = $media->tag_1;
         }
-        if(!empty($media->tag_2)) {
+        if (!empty($media->tag_2)) {
             $tags[] = $media->tag_2;
         }
-        if(!empty($media->tag_3)) {
+        if (!empty($media->tag_3)) {
             $tags[] = $media->tag_3;
         }
 

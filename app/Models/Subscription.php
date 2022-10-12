@@ -19,7 +19,6 @@ class Subscription extends Model
         'zoho_subscription_id',
         'zoho_product_id',
         'plan_code',
-        'zoho_plan_id',
         'previous_subscription_status',
         'subscription_status',
         'modified_at',
