@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Subscription extends Model
 {
+    use HasFactory;
+
     public const ACTIVE_STATUSES = [
         'live',
         'trial'
     ];
-
-    use HasFactory;
 
     protected $fillable = [
         'zoho_subscription_id',

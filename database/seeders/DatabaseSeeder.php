@@ -29,17 +29,17 @@ class DatabaseSeeder extends Seeder
             'superadmin' => '1',
          ]);
 
-//        Subscription::factory(3)->create();
-//        foreach (Subscription::all() as $k  =>  $subscription){
-//            $customer = new Customer();
-//            $customer->customer_id = $subscription->customer_id;
-//            $customer->zoho_customer_id = $subscription->zoho_customer_id;
-//            $customer->installation_id = uniqid();
-//            $customer->display_name = 'Customer' . $k;
-//            $customer->save();
-//
-//            $subscription->customer_id = $customer->id;
-//            $subscription->save();
-//        }
+        Subscription::factory(3)->create();
+        foreach (Subscription::all() as $k  =>  $subscription){
+            $customer = new Customer();
+            $customer->customer_id = $subscription->customer_id;
+            $customer->zoho_customer_id = $subscription->zoho_customer_id;
+            $customer->installation_id = uniqid();
+            $customer->display_name = 'Customer' . $k;
+            $customer->save();
+
+            $subscription->customer_id = $customer->id;
+            $subscription->save();
+        }
     }
 }
