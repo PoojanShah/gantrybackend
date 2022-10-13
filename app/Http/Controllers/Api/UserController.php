@@ -13,8 +13,4 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends BaseController
 {
-
-
-
-
 }
