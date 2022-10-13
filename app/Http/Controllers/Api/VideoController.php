@@ -61,7 +61,7 @@ class VideoController extends BaseController
         return response()->json(['test' => true], Response::HTTP_OK);
     }
 
-    private function getTagsArray($media): array
+    public function getTagsArray($media): array
     {
         $tags = [];
         if (!empty($media->tag_1)) {
