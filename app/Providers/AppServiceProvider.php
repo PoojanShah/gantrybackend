@@ -3,16 +3,13 @@
 namespace App\Providers;
 
 use App\Interfaces\OAuthClientInterface;
-use App\Models\Settings;
+use App\Interfaces\SubscriptionsApiClientInterface;
 use App\Services\OAuthClient;
-use EinarHansen\Cache\CacheItemPool;
+use App\Services\SubscriptionsApiClient;
 use Illuminate\Support\ServiceProvider;
-use phpDocumentor\Reflection\DocBlockFactory;
-use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Illuminate\Contracts\Cache\Repository;
-use SudiptoChoudhury\Support\Forge\Api\Client;
-use SudiptoChoudhury\Zoho\Subscriptions\Api;
+use Weble\ZohoClient\Enums\Region;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,34 +22,20 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(OAuthClientInterface::class, function ($app) {
             $client = new OAuthClient(
-                config('zoho.ZOHO_API_CLIENT_ID_OFFLINE'),
-                config('zoho.ZOHO_API_CLIENT_SECRET_OFFLINE'),
-                config('zoho.ZOHO_API_REGION'),
-                config('zoho.ZOHO_API_REDIRECT_URI_OFFLINE'),
+                env('ZOHO_API_CLIENT_ID_OFFLINE'),
+                env('ZOHO_API_CLIENT_SECRET_OFFLINE'),
+                Region::US,
+
             );
             $client->promptForConsent(false);// Optional setting: Prompts for user consent each time your app tries to access user credentials.
             $client->setScopes(['ZohoSubscriptions.fullaccess.all']); // Set the zoho
-            $client->useCache(new CacheItemPool($app->make(Repository::class)));//  use einar-hansen/laravel-psr-6-cache
+            $client->setRefreshToken(env('ZOHO_API_REFRESH_TOKEN')); // refresh token doenst expire - so use it as infinite token - any other approaches require access approval from zoho user
+//            $client->useCache(new CacheItemPool($app->make(Repository::class)));//  use einar-hansen/laravel-psr-6-cache
 
             return $client;
         }
         );
 
-        $this->app->bind(Api::class, function ($app) {
-            return new Api(
-                [
-                    'oauthtoken' => $app->make(OAuthClientInterface::class)->getAccessToken(),
-                    'zohoOrgId' => config('zoho.ZOHO_ORG_ID'),
-                    'client' => ['headers' => ['Authorization' => 'Zoho-oauthtoken {{oauthtoken}}']],
-                ]
-            );
-        }
-        );
-
-        $this->app->bind(DocBlockFactoryInterface::class, function () {
-            return DocBlockFactory::createInstance();
-        }
-        );
 
         $this->app->singleton(CacheItemPoolInterface::class, function ($app) {
             return new CacheItemPool($app->make(Repository::class));
@@ -66,11 +49,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(config('app.env') === 'production') {
-            \URL::forceScheme('https');
-        } else {
-            \URL::forceScheme('http');
-
+        $this->app->bind(
+            SubscriptionsApiClientInterface::class ,
+            fn () => $this->app->make(SubscriptionsApiClient::class)
+);
+        $this->app->singleton(SubscriptionsApiClientInterface::class, function ($app) {
+            return new SubscriptionsApiClient(
+                 $app->make(OAuthClientInterface::class),
+                env('ZOHO_ORG_ID')
+            );
         }
+        );
     }
 }

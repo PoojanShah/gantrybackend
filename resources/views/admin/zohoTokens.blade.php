@@ -23,17 +23,11 @@
                             <strong>Refresh Token</strong> {{ $data['refreshToken'] }}
                         </div>
                     @else
-                        <div class="col-12">
+                        <div>
                             <div class="card">
-
                                 <form action="" method="get" enctype="multipart/form-data">
                                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                                     <div class="card-body row">
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <strong>Current Refresh Token:</strong> {{ $data['refreshToken'] }}
-                                            </div>
-                                        </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="name">Code</label>

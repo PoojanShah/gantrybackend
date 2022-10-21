@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Interfaces\SubscriptionsApiClientInterface;
 use App\Models\Customer;
 use App\Models\Video;
+use App\Services\SubscriptionsApiClient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
@@ -36,8 +38,10 @@ class VideoController extends BaseController
         return $data;
     }
 
-    public function getMedia(Request $request, Video $videoModel, Customer $customerModel)
+    public function getMedia(Request $request, Video $videoModel, Customer $customerModel, SubscriptionsApiClientInterface $apiClient)
     {
+
+        dd($apiClient->getProducts());
         $data = [];
         $installationId = $request->header('InstallationId');
 

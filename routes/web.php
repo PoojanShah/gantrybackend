@@ -20,43 +20,35 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/subscriptions', '\App\Http\Controllers\Admin\SubscriptionController@index')->name('subscriptions.index');
-Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\SubscriptionController@show')->name('subscriptions.show');
-Route::get('/admin/subscriptions/{id}/activate', '\App\Http\Controllers\Admin\SubscriptionController@activate')->name('subscriptions.activate');
-
-Route::get('/admin/library', '\App\Http\Controllers\Admin\LibraryController@index')->name('library.index');
-Route::get('/admin/library/{media}', '\App\Http\Controllers\Admin\LibraryController@show')->name('library.show');
-Route::post('/admin/library/{media}/subscribe', '\App\Http\Controllers\Admin\LibraryController@subscribeAddon')->name('library.subscribeAddon');
-
 //Videos
-Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video');
+Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete');
+Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit');
+Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit');
+Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd');
+Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd');
 
 
 //Users
-Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users');
+Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete');
+Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd');
+Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd');
+Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit');
+Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit');
 
 
 Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
 Route::post('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
 Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileController@change');
 
-//Route::get('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
-//Route::post('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
-//Route::get('/change_password', '\App\Http\Controllers\Auth\ForgotController@change');
+Route::get('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
+Route::post('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
+Route::get('/change_password', '\App\Http\Controllers\Auth\ForgotController@change');
 
 //Dashboard
 Route::get('/admin/', [AdminController::class, 'index'])->name('admin');
-Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement');
 Route::get('/home/', function () {
     return redirect('/admin/');
 });
@@ -83,13 +75,4 @@ Route::get('/admin/logout/', [
     'uses' => '\App\Http\Controllers\Auth\LoginController@logout'
 ]);
 
-Route::get('password/reset', '\App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', '\App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', '\App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', '\App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.update');
-Route::get('password/confirm', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm');
-Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
-Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
-Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
-Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 //Route::get('/send-mail-using-mailgun', [MailGunController::class, 'index'])->name('send.mail.using.mailgun.index');

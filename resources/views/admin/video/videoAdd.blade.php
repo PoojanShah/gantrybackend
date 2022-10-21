@@ -110,7 +110,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Media</label>
-                                        <input type="file" name="video" class="form-control-file" accept="image/jpeg,image/png,image/gif,video/mp4,video/quicktime,video/x-msvideo,ideo/x-flv">
+                                        <input type="file" name="video" class="form-control-file" accept="image/jpeg,image/png,image/gif,,video/mp4,video/quicktime,video/x-msvideo,ideo/x-flv">
                                     </div>
 
                                 </div>
