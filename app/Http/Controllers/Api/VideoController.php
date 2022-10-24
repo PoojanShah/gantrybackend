@@ -9,6 +9,7 @@ use App\Services\SubscriptionsApiClient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
+use SudiptoChoudhury\Zoho\Subscriptions\Api;
 
 class VideoController extends BaseController
 {
@@ -38,10 +39,10 @@ class VideoController extends BaseController
         return $data;
     }
 
-    public function getMedia(Request $request, Video $videoModel, Customer $customerModel, SubscriptionsApiClientInterface $apiClient)
+    public function getMedia(Request $request, Video $videoModel, Customer $customerModel, Api $apiClient)
     {
 
-        dd($apiClient->getProducts());
+        dd($apiClient->getOrganizations());
         $data = [];
         $installationId = $request->header('InstallationId');
 

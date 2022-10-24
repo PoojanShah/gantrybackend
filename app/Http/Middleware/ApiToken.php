@@ -12,7 +12,7 @@ class ApiToken
 {
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if($request->get('token') !== env('API_TOKEN')){
+        if($request->get('token') !== config('app.API_TOKEN')){
             return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);
         }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6abb5fd49d5527d030bd15dd632380b",
+    "content-hash": "d964f09908c6b6b0c319846d0507a85d",
     "packages": [
         {
             "name": "asad/oauth2-zoho",
@@ -493,6 +493,75 @@
                 }
             ],
             "time": "2022-06-18T20:57:19+00:00"
+        },
+        {
+            "name": "einar-hansen/laravel-psr-6-cache",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/einar-hansen/laravel-psr-6-cache.git",
+                "reference": "677e72c8d12ab0ddd153c8bcb0baeaebedf11fad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/einar-hansen/laravel-psr-6-cache/zipball/677e72c8d12ab0ddd153c8bcb0baeaebedf11fad",
+                "reference": "677e72c8d12ab0ddd153c8bcb0baeaebedf11fad",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/cache": ">=5.8",
+                "illuminate/contracts": ">=5.8",
+                "php": "^8.0",
+                "psr/cache": "^3.0"
+            },
+            "provide": {
+                "psr/cache-implementation": "3.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "pestphp/pest": "^1.21",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EinarHansen\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Einar Hansen",
+                    "email": "einar@einarhansen.dev",
+                    "homepage": "https://einarhansen.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP service that allows you to easily communicate with football-data.org apis using Laravel.",
+            "homepage": "https://github.com/einar-hansen/laravel-psr-6-cache",
+            "keywords": [
+                "cache",
+                "einar",
+                "einar-hansen",
+                "laravel",
+                "psr-6"
+            ],
+            "support": {
+                "issues": "https://github.com/einar-hansen/laravel-psr-6-cache/issues",
+                "source": "https://github.com/einar-hansen/laravel-psr-6-cache/tree/1.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/einar-hansen",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-08-21T17:52:35+00:00"
         },
         {
             "name": "fruitcake/php-cors",

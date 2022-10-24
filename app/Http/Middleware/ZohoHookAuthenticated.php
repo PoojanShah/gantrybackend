@@ -13,7 +13,7 @@ class ZohoHookAuthenticated
 
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if($request->header('Zoho-Authorization-Token') !== env('ZOHO_TOKEN')){
+        if($request->header('Zoho-Authorization-Token') !== config('zoho.ZOHO_TOKEN')){
             return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);
         }
 
