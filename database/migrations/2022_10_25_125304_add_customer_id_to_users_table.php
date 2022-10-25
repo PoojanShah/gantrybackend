@@ -9,8 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->integer('superadmin')->default(0)->change();
+            $table->bigInteger('customer_id')->nullable();
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers')
@@ -21,8 +20,6 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('superadmin')->nullable(false)->change();
-            $table->dropForeign(['customer_id']);
             $table->dropColumn('customer_id');
         });
     }

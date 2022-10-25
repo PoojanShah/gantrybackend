@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Interfaces\SubscriptionsApiClientInterface;
 use App\Models\Customer;
 use App\Models\Video;
-use App\Services\SubscriptionsApiClient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
-use SudiptoChoudhury\Zoho\Subscriptions\Api;
 
 class VideoController extends BaseController
 {
@@ -39,10 +36,8 @@ class VideoController extends BaseController
         return $data;
     }
 
-    public function getMedia(Request $request, Video $videoModel, Customer $customerModel, Api $apiClient)
+    public function getMedia(Request $request, Video $videoModel, Customer $customerModel)
     {
-
-        dd($apiClient->getOrganizations());
         $data = [];
         $installationId = $request->header('InstallationId');
 

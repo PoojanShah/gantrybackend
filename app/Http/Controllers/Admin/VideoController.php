@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Array_;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class VideoController extends BaseController
 
     public function video(Request $request)
     {
-        $data = Array();
+        $data = [];
 
         $data['error'] = '';
         $data['error_link'] = '';
@@ -55,10 +56,19 @@ class VideoController extends BaseController
         $request->session()->forget('request');
 
         $per_page = 10;
+        $query = DB::table('video');
 
-        $video = DB::table('video')->orderBy('sort', 'asc')->paginate($per_page);
+        if (!Auth::user()->isSuperAdmin()){
+            $query = $query->leftJoin('customer_video', 'video.id', '=', 'customer_video.video_id')
+                ->where('customer_video.customer_id', '=', Auth::user()->customer_id)
+                ->orderBy('customer_video.customer_id', 'asc')
+                ->orderBy('video.sort', 'asc');
+        }
 
-        $count = DB::table('video')->count();
+        $query = $query->orderBy('video.sort', 'asc');
+        $video = $query->paginate($per_page);
+        $count = $query->count();
+
         $data['pagination'] = Admin::lara_pagination($count, $per_page);
 
         $data['video'] = $video;
@@ -115,7 +125,6 @@ class VideoController extends BaseController
         if($request->session()->has('success')) {
             $data['success'] = $request->session()->get('success');
         }
-
 
         $request->session()->forget('error');
         $request->session()->forget('error_link');
