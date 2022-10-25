@@ -42,9 +42,9 @@ Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@inde
 Route::post('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
 Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileController@change');
 
-Route::get('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
-Route::post('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
-Route::get('/change_password', '\App\Http\Controllers\Auth\ForgotController@change');
+//Route::get('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
+//Route::post('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
+//Route::get('/change_password', '\App\Http\Controllers\Auth\ForgotController@change');
 
 //Dashboard
 Route::get('/admin/', [AdminController::class, 'index'])->name('admin');
@@ -75,4 +75,13 @@ Route::get('/admin/logout/', [
     'uses' => '\App\Http\Controllers\Auth\LoginController@logout'
 ]);
 
+Route::get('password/reset', '\App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', '\App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', '\App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', '\App\Http\Controllers\Auth\ResetPasswordController@reset')->name('password.update');
+Route::get('password/confirm', 'Auth\ConfirmPasswordController@showConfirmForm')->name('password.confirm');
+Route::post('password/confirm', 'Auth\ConfirmPasswordController@confirm');
+Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
+Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
+Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 //Route::get('/send-mail-using-mailgun', [MailGunController::class, 'index'])->name('send.mail.using.mailgun.index');

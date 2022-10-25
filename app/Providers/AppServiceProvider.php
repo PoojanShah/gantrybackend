@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\OAuthClientInterface;
+use App\Models\Settings;
 use App\Services\OAuthClient;
 use EinarHansen\Cache\CacheItemPool;
 use Illuminate\Support\ServiceProvider;
@@ -28,8 +29,6 @@ class AppServiceProvider extends ServiceProvider
             );
             $client->promptForConsent(false);// Optional setting: Prompts for user consent each time your app tries to access user credentials.
             $client->setScopes(['ZohoSubscriptions.fullaccess.all']); // Set the zoho
-//            dd($client->getAuthorizationUrl(['ZohoSubscriptions.fullaccess.all']));
-            $client->setRefreshToken(config('zoho.ZOHO_API_REFRESH_TOKEN')); // refresh token doenst expire - so use it as infinite token - any other approaches require access approval from zoho user
             $client->useCache(new CacheItemPool($app->make(Repository::class)));//  use einar-hansen/laravel-psr-6-cache
 
             return $client;

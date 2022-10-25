@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Customer;
 use App\Models\Subscription;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,6 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Str;
 
 class SubscriptionController extends BaseController
 {
@@ -35,6 +37,13 @@ class SubscriptionController extends BaseController
                 $customer->installation_id = $customerData['cf_installation_id'];
                 $customer->display_name = $customerData['display_name'];
                 $customer->save();
+                $user = (new User())->forceFill([
+                    'name' => $customerData['name'],
+                    'email' => $customerData['email'],
+                    'password' => Str::random(10),
+                ]);
+                $user->save();
+                //TODO create user with email from customer and random email ...send email with link to password reset page
             }
 
             $subscription = $subscription ?? new Subscription();
