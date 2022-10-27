@@ -7,8 +7,11 @@ use App\Models\Settings;
 use App\Services\OAuthClient;
 use EinarHansen\Cache\CacheItemPool;
 use Illuminate\Support\ServiceProvider;
+use phpDocumentor\Reflection\DocBlockFactory;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Illuminate\Contracts\Cache\Repository;
+use SudiptoChoudhury\Support\Forge\Api\Client;
 use SudiptoChoudhury\Zoho\Subscriptions\Api;
 
 class AppServiceProvider extends ServiceProvider
@@ -43,6 +46,11 @@ class AppServiceProvider extends ServiceProvider
                     'client' => ['headers' => ['Authorization' => 'Zoho-oauthtoken {{oauthtoken}}']],
                 ]
             );
+        }
+        );
+
+        $this->app->bind(DocBlockFactoryInterface::class, function () {
+            return DocBlockFactory::createInstance();
         }
         );
 

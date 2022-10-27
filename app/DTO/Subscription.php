@@ -7,13 +7,13 @@ use DateTime;
 class Subscription extends DataTransferObject
 {
     public string $invoice_notes;
-    public ?DateTime $next_shipment_day;
-    public ?DateTime $updated_time;
+    public DateTime $next_shipment_day;
+    public DateTime $updated_time;
     public array $notes = [];
     public string $zcrm_potential_id;
     public string $reference_id;
     public int $trial_extended_count;
-    public ?DateTime $next_billing_at;
+    public DateTime $next_billing_at;
     public array $taxes = [];
     public string $coupon_duration;
     public string $subscription_id;
@@ -30,7 +30,7 @@ class Subscription extends DataTransferObject
     public string $last_shipment_at;
     public array $auto_apply_credits = [];
     public string $product_name;
-    public ?DateTime $activated_at;
+    public DateTime $activated_at;
     public bool $is_metered_billing;
     public string $name;
     public string $zcrm_potential_name;
@@ -44,26 +44,26 @@ class Subscription extends DataTransferObject
     public DateTime $created_at;
     public int $shipping_interval;
     public int $payment_terms;
-    public ?DateTime $last_billing_at;
+    public DateTime $last_billing_at;
     public string $currency_code;
     public bool $can_prorate;
     public string $scheduled_cancellation_date;
     public ?DateTime $expires_at;
     public string $interval_unit;
-    public ?DateTime $end_of_term_scheduled_date;
+    public DateTime $end_of_term_scheduled_date;
     public bool $can_add_bank_account;
     public bool $is_advance_invoice_present;
     public ?DateTime $last_shipment_day;
     public string $tax_rounding;
-    public ?DateTime $start_date;
-    public ?DateTime $next_shipment_at;
+    public DateTime $start_date;
+    public DateTime $next_shipment_at;
     public array $payment_gateways = [];
     public int $amount;
     public int $remaining_billing_cycles;
     public string $subscription_number;
     public string $currency_symbol;
-    public ?DateTime $current_term_starts_at;
-    public ?DateTime $current_term_ends_at;
+    public DateTime $current_term_starts_at;
+    public DateTime $current_term_ends_at;
     public int $total_orders;
     public string $salesperson_name;
 //    /** @var  App\DTO\Addon [] */

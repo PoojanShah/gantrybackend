@@ -20,6 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/admin/subscriptions', '\App\Http\Controllers\Admin\SubscriptionController@index');
+Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\SubscriptionController@show');
+
 //Videos
 Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video');
 Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete');

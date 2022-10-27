@@ -2,8 +2,6 @@
 
 namespace App\DTO;
 
-use App\Models\Video;
-
 class Addon extends DataTransferObject
 {
     public int $quantity;
@@ -22,7 +20,5 @@ class Addon extends DataTransferObject
     public string $tax_percentage;
     public string $addon_code;
     public string $pricing_scheme;
-    public ?Video $video = null;
-    public array $price_brackets = [];
 
 }

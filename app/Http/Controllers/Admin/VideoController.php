@@ -29,12 +29,11 @@ class VideoController extends BaseController
 
         $data['user'] = $request->user();
 
-        $data['page_title'] = 'Video';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
 
-        $data['breadcrumbs'] = Admin::breadcrumbs($data['page_title'], $href);
+        $data['breadcrumbs'] = Admin::breadcrumbs(__('Video'), $href);
 
         $data['request'] = $request->session()->get('datas');
 
@@ -102,7 +101,6 @@ class VideoController extends BaseController
 
         $data['video'] = DB::table('video')->where('id', '=', $request->id)->first();
 
-        $data['page_title'] = 'Edit Video';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
@@ -202,7 +200,6 @@ class VideoController extends BaseController
         $data['error_link'] = '';
         $data['success'] = '';
 
-        $data['page_title'] = 'Add Video';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];

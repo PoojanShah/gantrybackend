@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Mail\UserCreatedMailable;
 use App\Models\Customer;
 use App\Models\Subscription;
 use App\Models\User;
@@ -10,8 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class SubscriptionController extends BaseController
@@ -37,12 +41,22 @@ class SubscriptionController extends BaseController
                 $customer->installation_id = $customerData['cf_installation_id'];
                 $customer->display_name = $customerData['display_name'];
                 $customer->save();
+                $plainPassword =  Str::random(15);
                 $user = (new User())->forceFill([
-                    'name' => $customerData['name'],
+                    'name' => $customerData['first_name'],
                     'email' => $customerData['email'],
-                    'password' => Str::random(10),
+                    'password' => Hash::make($plainPassword),
                 ]);
                 $user->save();
+                Mail::to($customerData['email'])
+                    ->send(
+                        new UserCreatedMailable(
+                            $user->name,
+                            $plainPassword,
+                            route('password.request')
+                        )
+                    );
+
                 //TODO create user with email from customer and random email ...send email with link to password reset page
             }
 
@@ -71,6 +85,7 @@ class SubscriptionController extends BaseController
             return $subscription;
         }  catch (Exception $e) {
             DB::rollBack();
+            dd($e);
             Log::error($e->getMessage(), $e->getTrace());
             return new Response(
                 'Hook processing error! Data is not in sync, if next hook executed successfully then data in would be in sync!',

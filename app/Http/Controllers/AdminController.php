@@ -17,7 +17,6 @@ class AdminController extends BaseController
     public function index(Request $request)
     {
         $data = Array();
-        $data['page_title'] = 'Dashboard';
 
         $data['user'] = $request->user();
 
@@ -51,7 +50,9 @@ class AdminController extends BaseController
             }
 
         } else {
-            $data['refreshToken'] = json_decode($settings->settings, true)['refreshToken'];
+            $data['refreshToken'] = $settings
+                ? json_decode($settings->settings, true)['refreshToken']
+                : 'No token!';
 
 //            $authClient->promptForConsent(false);
 //            $url = $authClient->getAuthorizationUrl();
@@ -61,7 +62,6 @@ class AdminController extends BaseController
         }
 
         $data['user'] = $request->user();
-        $data['page_title'] = 'Zoho tokens management';
 
         return view('admin.zohoTokens', ['data' => $data])->withErrors($errors);
     }
