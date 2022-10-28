@@ -31,6 +31,12 @@ class SubscriptionRemoteRepository
             ->toArray()['subscription'], $this->blockFactory);
     }
 
+    public function reactivateSubscription(string $id): Subscription
+    {
+        return new Subscription($this->apiClient->getSubscription(['subscription_id' => $id])
+            ->toArray()['subscription'], $this->blockFactory);
+    }
+
     public function getSubscriptionsByCustomer(Customer $customer): Collection
     {
         $response = $this->apiClient->getCustomersSubscriptions(['customer_id' => $customer->zoho_customer_id])->toArray();

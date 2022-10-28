@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title><?= $data['page_title']; ?> - Admin Panel</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
@@ -42,25 +42,18 @@ if (isset($link[2])) {
         </div>
         <nav class="navbar navbar-header navbar-expand-lg">
             <div class="container-fluid">
-
-                <?php if ($link == 'products-test') { ?>
-                    
-					
-                <?php } ?>
-
-
                 <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                     <li class="nav-item dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="la la-user" style="font-size: 25px; position: relative; top: 4px; left: 8px;"></i>
-                            <span><?= $data['user']->name; ?></span></span>
+                            <span><?= auth()->user()->name; ?></span></span>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li>
                                 <div class="user-box">
                                     <div class="u-text">
-                                        <h4><?= $data['user']->name; ?></h4>
-                                        <p class="text-muted"><?= $data['user']->email; ?></p><a href="/admin/profile/" class="btn btn-rounded btn-danger btn-sm">Edit Profile</a></div>
+                                        <h4><?= auth()->user()->name; ?></h4>
+                                        <p class="text-muted"><?= auth()->user()->email; ?></p><a href="/admin/profile/" class="btn btn-rounded btn-danger btn-sm">Edit Profile</a></div>
                                 </div>
                             </li>
                             <div class="dropdown-divider"></div>
@@ -198,7 +191,7 @@ if (isset($link[2])) {
                         <p>Videos</p>
                     </a>
                 </li>
-                <?php if($data['user']->superadmin == 1) { ?>
+                <?php if(auth()->user()->superadmin == 1) { ?>
                 <li class="nav-item <?php if($link == 'users') { ?>active<?php } ?>">
                     <a href="/admin/users/">
                         <i class="la la-users"></i>

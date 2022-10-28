@@ -20,8 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/subscriptions', '\App\Http\Controllers\Admin\SubscriptionController@index');
-Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\SubscriptionController@show');
+Route::get('/admin/subscriptions', '\App\Http\Controllers\Admin\SubscriptionController@index')->name('subscriptions.index');
+Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\SubscriptionController@show')->name('subscriptions.show');
+Route::get('/admin/subscriptions/{id}/activate', '\App\Http\Controllers\Admin\SubscriptionController@activate')->name('subscriptions.activate');
 
 //Videos
 Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video');

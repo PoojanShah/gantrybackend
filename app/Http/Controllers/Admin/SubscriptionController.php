@@ -27,7 +27,13 @@ class SubscriptionController extends BaseController
 
     public function show(int $id)
     {
-        return view('admin.subscriptions.show', $this->remoteRepository->getOne($id));
+        return view('admin.subscriptions.show', ['subscription' => $this->remoteRepository->getOne($id)]);
+    }
+
+    public function reactivateSubscription(int $id)
+    {
+        $this->remoteRepository->reactivateSubscription($id);
+        return redirect()->back();
     }
 
 }

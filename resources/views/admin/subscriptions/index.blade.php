@@ -41,7 +41,7 @@
 {{--                                        @method('DELETE')--}}
 {{--                                        <input type="submit" class="btn btn-danger form-control" value="Remove">--}}
 {{--                                    </form>--}}
-{{--                                    <a href="{{ route('subscriptions.show', $subscription) }}" class="btn btn-outline-success form-control">View</a>--}}
+                                    <a href="{{ route('subscriptions.show', $subscription->subscription_id) }}" class="btn btn-outline-success form-control">View</a>
                                 </td>
                             </tr>
                         @endforeach
