@@ -25,12 +25,12 @@ class Customer extends Model
         return $this->belongsToMany(Video::class);
     }
 
-    public function subscription(): HasOne
+    public function getActiveSubscription(): ?Subscription
     {
-        return $this->hasOne(Customer::class);
+        return $this->hasMany(Subscription::class)->where('subscription_status', Subscription::LIVE)->first();
     }
 
-    public function getActiveSubscription(string $installationId)
+    public function getActiveSubscriptionByInstallationId(string $installationId)
     {
         return  DB::table('subscriptions')->select('subscriptions.*')
             ->leftJoin('customers', 'subscriptions.customer_id',  '=', 'customers.id')

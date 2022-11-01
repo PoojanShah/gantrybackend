@@ -88,14 +88,6 @@
                             <div class="col-4">{{$addon->price}} {{$subscription->currency_code}}</div>
                         @endforeach
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="btn  btn-sm btn-primary">Add</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         @endif

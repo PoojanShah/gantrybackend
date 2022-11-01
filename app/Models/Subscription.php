@@ -10,9 +10,12 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    public const LIVE  = 'live';
+    public const TRIAL  = 'trial';
+
     public const ACTIVE_STATUSES = [
-        'live',
-        'trial'
+        self::LIVE,
+        self::TRIAL
     ];
 
     protected $fillable = [

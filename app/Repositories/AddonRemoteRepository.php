@@ -29,51 +29,36 @@ class AddonRemoteRepository
 
     public function addRemoveSubscriptionAddon(
         Subscription $subscription,
+        string $planCode,
         array $addZohoAddonCodes = [],
         array $removeZohoAddonCodes = [],
     ): Subscription {
 
-        if ($removeZohoAddonCodes) {
-            foreach ($subscription->addons as $k => $addon) {
-                if (in_array($addon->addon_code, $removeZohoAddonCodes, true)) {
-                    unset($subscription->addons[$k]);
-                }
+        foreach ($subscription->addons as $k => $addon){
+            if (in_array($addon->addon_code, $removeZohoAddonCodes, true)){
+                unset($subscription->addons[$k]);
             }
         }
 
-        if ($addZohoAddonCodes) {
-            foreach ($this->getAddonsByPlanCode($subscription->plan->plan_code) as $addon) {
-                if (in_array($addon->addon_code, $addZohoAddonCodes, true)) {
-                    $subscription->addons[] = $addon;
-                }
+        foreach ($this->getAddonsByPlanCode($planCode) as $addon){
+            if(in_array($addon->addon_code, $addZohoAddonCodes, true)){
+                $subscription->addons[] = $addon;
             }
         }
-        $subscription = (array)$subscription;
-        foreach ($subscription['addons'] as $k => $addon){
-            $subscription['addons'][$k] = (array)$addon;
-        }
 
-        return $this->normalizer->denormalize($this->apiClient->updateSubscription(
-            [
-                'subscription_id' => $subscription['subscription_id'],
-                'parameters' => ['addons' =>  $subscription['addons']]
-            ]
-        )
+        return $this->normalizer->denormalize($this->apiClient->updateSubscription((array) $subscription)
             ->toArray()['subscription'], Subscription::class);
-    }
 
-    public function getOne(string $addonCode): DataTransferObject
-    {
-        return $this->normalizer->denormalize($this->apiClient->getAddon(['addon_code' => $addonCode])
-            ->toArray()['addon'], Addon::class);
     }
 
     public function getAddonsByPlanCode(string $planCode): Collection
     {
         $response = $this->apiClient->getPlanAddons(['plan_code' => $planCode])->toArray();
 
-        if (isset($response['addons'])) {
-            foreach ($response['addons'] as $subscriptionParams) {
+        dd($response);
+
+        if(isset($response['addons'])){
+            foreach ($response['addons'] as $subscriptionParams){
                 $this->collection->add($this->normalizer->denormalize($subscriptionParams, Addon::class));
             }
         }
