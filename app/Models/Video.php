@@ -22,7 +22,7 @@ class Video extends Model
 
     public function getAvailableVideosObjects(?string $installationId): Collection
     {
-        $query = DB::table($this->table)->where('status', '=', 1);
+        $query = DB::table($this->table)->select('video.*')->where('status', '=', 1);
 
         if ($installationId) {
             $query->leftJoin('customer_video', 'video.id',  '=', 'customer_video.video_id')
@@ -33,12 +33,12 @@ class Video extends Model
                 ->orWhereNull('video.zoho_addon_code');
         } else {
             $query = DB::table($this->table)
-                ->where('status', '=', 1)
                 ->whereNull('video.zoho_addon_code');
         }
 
         return static::hydrate(
-            $query->orderBy('sort')->get()->toArray()
+            $query->where('status', '=', 1)->distinct('video.id')->orderBy('sort')->get()->toArray()
         );
     }
+
 }

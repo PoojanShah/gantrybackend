@@ -295,11 +295,4 @@
 	line-height: 60px;
 	background-color: #f5f5f5;
 }
-body > .container-fluid, body > .main-panel, body > .container{
-	min-height: 90vh;
-}
 
-.media-tag{
-	border-radius: 15px;
-	padding: 2px 5px;
-}
