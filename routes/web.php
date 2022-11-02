@@ -25,23 +25,24 @@ Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\Subscriptio
 Route::get('/admin/subscriptions/{id}/activate', '\App\Http\Controllers\Admin\SubscriptionController@activate')->name('subscriptions.activate');
 
 Route::get('/admin/library', '\App\Http\Controllers\Admin\LibraryController@index')->name('library.index');
+Route::get('/admin/library/{media}', '\App\Http\Controllers\Admin\LibraryController@show')->name('library.show');
 
 //Videos
-Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video');
-Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete');
-Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit');
-Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit');
-Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd');
-Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd');
+Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit')->middleware('auth.superAdminAccessOnly');
+Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd')->middleware('auth.superAdminAccessOnly');
+Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd')->middleware('auth.superAdminAccessOnly');
 
 
 //Users
-Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users');
-Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete');
-Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd');
-Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd');
-Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit');
-Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit');
+Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd')->middleware('auth.superAdminAccessOnly');
+Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware('auth.superAdminAccessOnly');
+Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit')->middleware('auth.superAdminAccessOnly');
 
 
 Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
@@ -54,7 +55,7 @@ Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileControll
 
 //Dashboard
 Route::get('/admin/', [AdminController::class, 'index'])->name('admin');
-Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement');
+Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement')->middleware('auth.superAdminAccessOnly');
 Route::get('/home/', function () {
     return redirect('/admin/');
 });

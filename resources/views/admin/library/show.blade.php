@@ -1,102 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
 
-    @php $addonsTotal =0 @endphp
-
-    <div class="row justify-content-end font-weight-bold text-right">
-        <div class="col-xs-12 col-sm-3">
-            @csrf
-            @method('POST')
-            @if($subscription->status === 'live')
-                <div class="btn btn-md btn-danger font-weight-bold" data-toggle="popover" title="Cancel"
-                     data-content="To cancel subscription contact us by email:
-                        @php
-                         echo \Illuminate\Support\Facades\Config::get('app.ADMIN_EMAIL');
-                     @endphp">
-                    Cancel
-                </div>
-            @endif
-        </div>
-    </div>
-    <div class="row">
-
-        <div class="col-12 mb-2">
-            <h3 class="text-center">{{__($subscription->name) }} </h3>
-        </div>
-        <h6 class="col-12 mb-2 mt-2">
-            Billing Details
-        </h6>
-
-        <div class="col-sm-3">
-            <div class="text-muted">Activation Date :</div>
-            <div class="">{{ $subscription->activated_at ? $subscription->activated_at->format('d/m/Y') : '---'}}</div>
-        </div>
-        <div class="col-sm-3">
-            <div class="text-muted">Previous Billing Date :</div>
-            <div class="">{{ $subscription->last_billing_at ? $subscription->last_billing_at->format('d/m/Y') : '---' }}</div>
-        </div>
-        <div class="col-sm-3">
-            <div class="text-muted">Expiration Date :</div>
-            <div class="">{{ $subscription->expires_at ? $subscription->expires_at->format('d/m/Y') : '---' }}</div>
-        </div>
-        <div class="col-sm-3">
-            <div class="text-muted">Status</div>
-            <div class="">{{ $subscription->status}}</div>
-        </div>
-
-        <h6 class="col-12 mb-2 mt-4">
-            Subscription Details
-        </h6>
-        <div class="col-md-12 card">
-            <div class="card-body">
-                <div class="row font-weight-bold">
-                    <div class="col-4">Item</div>
-                    <div class="col-4">Discount</div>
-                    <div class="col-4">Rate</div>
-                </div>
+        <div class="row justify-content-center align-content-center">
+            <h1 class="col-9">{{$media->title}}</h1>
+            <div class="col-3">
+                @if(!$media->zoho_addon_code)
+                    <span class="text-success text-uppercase font-weight-bold h2">FREE</span>
+                @elseif($isAddonPayed)
+                    <span class="text-success text-uppercase font-weight-bold h2">SUBSCRIBED</span>
+                @else
+                    <span class="text-danger text-uppercase font-weight-bold h2">SUBSCRIBE</span>
+                @endif
             </div>
         </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                @if($media->image)
+                    <img src="{{$media->image}}" alt="{{$media->title}}">
+                @else
+                    <video
+                            id="video"
+                            class="video-js"
+                            controls
+                            preload="auto"
+                            width="640"
+                            height="264"
+                            poster="{{$media->thumbnail}}"
+                            data-setup="{}"
+                    >
+                        <source src="{{$media->video}}" type="video/mp4"/>
+                        <source src="MY_VIDEO.webm" type="video/webm"/>
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a
+                            web browser that
+                            <a href="https://videojs.com/html5-video-support/" target="_blank"
+                            >supports HTML5 video</a
+                            >
+                        </p>
+                    </video>
+                @endif
+            </div>
+            <div class="col-md-12 pt-4">
+                <h4>Tags</h4>
+                <div class="tags-list pt-2 font-weight-bold">
+                    @if($media->tag_1)
+                        <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$media->tag_1}}</span>
+                    @endif
 
-        <div class="col-md-12 card">
-            <div class="card-header">
-                PLAN
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-4">{{$subscription->plan->name}}</div>
-                    <div class="col-4">{{$subscription->plan->discount ?? 0}}</div>
-                    <div class="col-4">{{$subscription->plan->price}} {{$subscription->currency_code}}</div>
+                    @if($media->tag_2)
+                        <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$media->tag_2}}</span>
+                    @endif
+                    @if($media->tag_3)
+                        <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$media->tag_3}}</span>
+                    @endif
+
                 </div>
-            </div>
-        </div>
-        @if(count($subscription->addons)  > 0 )
-            <div class="col-md-12 card">
-                <div class="card-header">
-                    ADDONS
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach($subscription->addons as $addon)
-                            @php $addonsTotal +=$addon->total @endphp
-                            <div class="col-4">
-                                {{$addon->name}}
-                                <br>
-                                <span class="text-muted small">{{$addon->description}}</span>
-                            </div>
-                            <div class="col-4">{{$addon->discount ?? 0}}</div>
-                            <div class="col-4">{{$addon->price}} {{$subscription->currency_code}}</div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        @endif
-    </div>
-    <div class="row justify-content-end ">
-        <div class="col-sm-6 col-xs-12">
-            <div class="row font-weight-bold text-center">
-                <div class="col-xs-12 col-sm-3">Total :</div>
-                <div class="col-xs-12 col-sm-3">{{$subscription->amount + $addonsTotal}} {{$subscription->currency_code}} </div>
             </div>
         </div>
     </div>
