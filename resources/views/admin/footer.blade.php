@@ -25,7 +25,8 @@
 <script src="/assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="/assets/js/ready.min.js"></script>
-<script src="/assets/js/demo.js"></script>
+<script src="/assets/js/app.js" defer></script>
+<script src="/assets/js/plugin/video/video.min.js" defer></script>
 
 <script>
 

@@ -28,4 +28,5 @@
 
 # Ignored vscode files
 .terraform/.vscode
-
+/node_modules
+/public/uploadfiles

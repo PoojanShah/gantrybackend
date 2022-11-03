@@ -33,12 +33,11 @@ class UsersController extends BaseController
 
         $data['user'] = $request->user();
 
-        $data['page_title'] = 'Users';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
 
-        $data['breadcrumbs'] = Admin::breadcrumbs($data['page_title'], $href);
+        $data['breadcrumbs'] = Admin::breadcrumbs(__('Users'), $href);
 
         $data['request'] = $request->session()->get('datas');
 
@@ -89,7 +88,6 @@ class UsersController extends BaseController
         $data['error_link'] = '';
         $data['success'] = '';
 
-        $data['page_title'] = 'Add User';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];
@@ -126,7 +124,6 @@ class UsersController extends BaseController
 
         $data['user'] = DB::table('users')->where('id', '=', $request->id)->first();
 
-        $data['page_title'] = 'Edit User';
         $href = $_SERVER['REQUEST_URI'];
         $href = explode('/', $href);
         $href = $href[2];

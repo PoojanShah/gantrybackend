@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,23 +23,30 @@ class Video extends Model
 
     public function getAvailableVideosObjects(?string $installationId): Collection
     {
-        $query = DB::table($this->table)->where('status', '=', 1);
+        $query = DB::table($this->table)->select('video.*')->where('status', '=', 1);
 
         if ($installationId) {
-            $query->leftJoin('customer_video', 'video.id',  '=', 'customer_video.video_id')
-                ->leftJoin('customers', 'customer_video.customer_id',  '=', 'customers.id')
-                ->leftJoin('subscriptions', 'customers.id',  '=', 'subscriptions.customer_id')
-                ->whereIn('subscriptions.subscription_status',Subscription::ACTIVE_STATUSES)
+            $query->leftJoin('customer_video', 'video.id', '=', 'customer_video.video_id')
+                ->leftJoin('customers', 'customer_video.customer_id', '=', 'customers.id')
+                ->leftJoin('subscriptions', 'customers.id', '=', 'subscriptions.customer_id')
+                ->whereIn('subscriptions.subscription_status', Subscription::ACTIVE_STATUSES)
                 ->where('customers.installation_id', '=', $installationId)
                 ->orWhereNull('video.zoho_addon_code');
         } else {
             $query = DB::table($this->table)
-                ->where('status', '=', 1)
                 ->whereNull('video.zoho_addon_code');
         }
 
         return static::hydrate(
-            $query->orderBy('sort')->get()->toArray()
+            $query->where('status', '=', 1)->distinct('video.id')->orderBy('sort')->get()->toArray()
         );
+    }
+
+    public function isAddonPayedByUser(User $user): bool
+    {
+        return (bool)$this->where('video.id', '=', $this->id)
+            ->whereHas('customers', function (Builder $query) use ($user) {
+                $query->where('customers.id', '=', $user->customer_id);
+            })->first();
     }
 }
