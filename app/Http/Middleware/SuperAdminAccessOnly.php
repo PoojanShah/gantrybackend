@@ -11,8 +11,8 @@ class SuperAdminAccessOnly
 {
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        if(Auth::user() !== null || (Auth::user() && Auth::user()->isSuperAdmin())){
-            return response('Unauthorized.', Response::HTTP_UNAUTHORIZED);
+        if(Auth::user() === null || (Auth::user() && !Auth::user()->isSuperAdmin())){
+            return response('Unauthorized. Only admin access', Response::HTTP_UNAUTHORIZED);
         }
 
         return $next($request);
