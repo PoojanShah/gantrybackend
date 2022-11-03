@@ -85,7 +85,6 @@ class SubscriptionController extends BaseController
             return $subscription;
         }  catch (Exception $e) {
             DB::rollBack();
-            dd($e);
             Log::error($e->getMessage(), $e->getTrace());
             return new Response(
                 'Hook processing error! Data is not in sync, if next hook executed successfully then data in would be in sync!',
