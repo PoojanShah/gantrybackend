@@ -3,15 +3,21 @@
 @section('content')
     <div class="container">
 
-        <div class="row justify-content-center align-content-center">
-            <h1 class="col-9">{{$media->title}}</h1>
-            <div class="col-3">
+        <div class="row " style="line-height: 3em;">
+            <div class="col-9  mt-auto mx-auto h3">{{$media->title}}</div>
+            <div class="col-3 mt-auto mx-auto">
                 @if(!$media->zoho_addon_code)
-                    <span class="text-success text-uppercase font-weight-bold h2">FREE</span>
+                    <span class="text-success text-uppercase font-weight-bold h5">FREE</span>
                 @elseif($isAddonPayed)
-                    <span class="text-success text-uppercase font-weight-bold h2">SUBSCRIBED</span>
+                    <span class="text-success text-uppercase font-weight-bold h5">SUBSCRIBED</span>
                 @else
-                    <span class="text-danger text-uppercase font-weight-bold h2">SUBSCRIBE</span>
+                    <form action="{{ route('library.subscribeAddon', $media->id) }}" method="POST" id="addAddonForm">
+                        @csrf
+                        @method('POST')
+                        <a onclick="document.getElementById('addAddonForm').submit();" href="#" class="text-danger text-uppercase font-weight-bold h5">
+                            SUBSCRIBE FOR {{$zohoAddon->price_brackets[0]['price']}} $
+                        </a>
+                    </form>
                 @endif
             </div>
         </div>

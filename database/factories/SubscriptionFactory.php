@@ -26,7 +26,6 @@ class SubscriptionFactory extends Factory
             'modified_at' => $this->faker->date("yyyy-MM-dd'T'HH:mm:ssZ"),
             'zoho_customer_id' => rand(1, 999999999999),
             'customer_id' => rand(1, 999999999999),
-            'customer_email' => $this->faker->email()
         ];
     }
 
