@@ -21,7 +21,7 @@ Generate vendor:
   only:
     - main
   tags:
-    - shell
+    - php-runner
 
 Build:
   stage: build
@@ -33,7 +33,7 @@ Build:
   only:
     - main
   tags:
-    - shell
+    - php-runner
 
 Deployment: 
   stage: deploy
@@ -48,4 +48,4 @@ Deployment:
   only:
     - main
   tags:
-    - shell
+    - php-runner
