@@ -26,6 +26,7 @@ Route::get('/admin/subscriptions/{id}/activate', '\App\Http\Controllers\Admin\Su
 
 Route::get('/admin/library', '\App\Http\Controllers\Admin\LibraryController@index')->name('library.index');
 Route::get('/admin/library/{media}', '\App\Http\Controllers\Admin\LibraryController@show')->name('library.show');
+Route::post('/admin/library/{media}/subscribe', '\App\Http\Controllers\Admin\LibraryController@subscribeAddon')->name('library.subscribeAddon');
 
 //Videos
 Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video')->middleware('auth.superAdminAccessOnly');

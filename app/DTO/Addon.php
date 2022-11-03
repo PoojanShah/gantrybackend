@@ -23,5 +23,6 @@ class Addon extends DataTransferObject
     public string $addon_code;
     public string $pricing_scheme;
     public ?Video $video = null;
+    public array $price_brackets = [];
 
 }
