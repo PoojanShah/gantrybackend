@@ -15,7 +15,7 @@ class VideoController extends BaseController
         $data = [];
         $installationId = $request->header('InstallationId');
 
-        if ($installationId && !$customerModel->getActiveSubscription($installationId)) {
+        if ($installationId && !$customerModel->getActiveSubscriptionByInstallationId($installationId)) {
             return $data;
         }
 
@@ -41,7 +41,7 @@ class VideoController extends BaseController
         $data = [];
         $installationId = $request->header('InstallationId');
 
-        if ($installationId && !$customerModel->getActiveSubscription($installationId)) {
+        if ($installationId && !$customerModel->getActiveSubscriptionByInstallationId($installationId)) {
             return $data;
         }
 

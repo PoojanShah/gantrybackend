@@ -29,6 +29,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    npm
+
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n latest
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Add user for laravel application
 RUN groupadd -g 1000 www && \

@@ -97,7 +97,6 @@ class ProfileController extends Controller
         $user = User::first();
 
         $data = Array();
-        $data['page_title'] = 'Dashboard';
         $data['user'] = $request->user();
 
         return view('profile', ['data' => $data, 'user' => $user, 'success' => $success, 'error' => $error]);

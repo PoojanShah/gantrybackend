@@ -212,4 +212,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    'API_TOKEN' => env('API_TOKEN'),
+    'ADMIN_EMAIL' => env('ADMIN_EMAIL','enspirations.subscriptions@comforthealthsolutions.com')
+
 ];
