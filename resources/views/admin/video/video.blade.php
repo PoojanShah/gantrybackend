@@ -45,6 +45,7 @@
                                     <th scope="col">Sort</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Thumbnail</th>
+                                    <th scope="col">Addon code</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
@@ -58,6 +59,7 @@
                                     <td width="80px"><?= $item->sort; ?></td>
                                     <td><?= $item->title; ?></td>
                                     <td><img src="<?= $item->thumbnail; ?>"></td>
+                                    <td width="80px"><?= $item->zoho_addon_code; ?></td>
                                     <td width="200px">
                                         <?php if($item->status == 1) { ?>On<?php } else { ?>Off<?php } ?>
                                     </td>
