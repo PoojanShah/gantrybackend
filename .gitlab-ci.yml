@@ -12,8 +12,6 @@ cache:
 
 Generate vendor:
   stage: build
-  before_script:
-    - apk add --update docker openrc
   script:
     - |
       if [[ ! -d vendor ]]; then
@@ -23,12 +21,11 @@ Generate vendor:
   only:
     - main
   tags:
-    - docker
+    - shell
 
 Build:
   stage: build
   before_script:
-    - apk add --update docker openrc
     - echo $GCP_KEY | base64 -d | docker login -u _json_key --password-stdin https://gcr.io
   script: 
     - docker build -f Dockerfile -t $IMAGE_TAG .
@@ -36,12 +33,10 @@ Build:
   only:
     - main
   tags:
-    - docker
+    - shell
 
 Deployment: 
   stage: deploy
-  before_script:
-    - apk add --update docker openrc
   script:
     - cp -ar ./* /home/gantryadmin
     - cd /home/gantryadmin
@@ -53,4 +48,4 @@ Deployment:
   only:
     - main
   tags:
-    - docker
+    - shell
