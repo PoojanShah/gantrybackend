@@ -29,21 +29,21 @@ Route::get('/admin/library/{media}', '\App\Http\Controllers\Admin\LibraryControl
 Route::post('/admin/library/{media}/subscribe', '\App\Http\Controllers\Admin\LibraryController@subscribeAddon')->name('library.subscribeAddon');
 
 //Videos
-Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/video/delete/', '\App\Http\Controllers\Admin\VideoController@videoDelete')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoController@videoPostEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
 
 
 //Users
-Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd')->middleware('auth.superAdminAccessOnly');
-Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware('auth.superAdminAccessOnly');
-Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
 
 
 Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
@@ -56,7 +56,7 @@ Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileControll
 
 //Dashboard
 Route::get('/admin/', [AdminController::class, 'index'])->name('admin');
-Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement')->middleware('auth.superAdminAccessOnly');
+Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement')->middleware(['auth', 'auth.superAdminAccessOnly']);
 Route::get('/home/', function () {
     return redirect('/admin/');
 });

@@ -36,24 +36,24 @@ if (isset($link[2])) {
 
         <div class="navbar-nav-scroll">
             <ul class="navbar-nav bd-navbar-nav flex-row">
-                @if(auth()->user()->superadmin == 1)
-                <li class="nav-item <?php if($link == 'video') { ?>active<?php } ?>">
-                    <a class="nav-link " href="/admin/video/">
-                        Videos
-                    </a>
-                </li>
-                <li class="nav-item <?php if($link == 'users') { ?>active<?php } ?>">
-                    <a class="nav-link " href="/admin/users/">
-                        Users
-                    </a>
-                </li>
+                @if(auth()->user()->isSuperAdmin())
+                    <li class="nav-item <?php if($link == 'video') { ?>active<?php } ?>">
+                        <a class="nav-link " href="/admin/video/">
+                            Videos
+                        </a>
+                    </li>
+                    <li class="nav-item <?php if($link == 'users') { ?>active<?php } ?>">
+                        <a class="nav-link " href="/admin/users/">
+                            Users
+                        </a>
+                    </li>
                 @else
 
-                <li class="nav-item <?php if($link == 'subscriptions') { ?>active<?php } ?>">
-                    <a class="nav-link " href="/admin/subscriptions/">
-                        Subscriptions
-                    </a>
-                </li>
+                    <li class="nav-item <?php if($link == 'subscriptions') { ?>active<?php } ?>">
+                        <a class="nav-link " href="/admin/subscriptions/">
+                            Subscriptions
+                        </a>
+                    </li>
 
                     <li class="nav-item <?php if($link == 'library') { ?>active<?php } ?>">
                         <a class="nav-link " href="/admin/library/">
@@ -66,14 +66,18 @@ if (isset($link[2])) {
 
         <ul class="navbar-nav flex-row ml-md-auto d-md-flex">
             <li class="nav-item dropdown">
-                <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="true">
                     <i class="la la-user" style="font-size: 25px; position: relative; top: 4px; left: 8px;"></i>
-                <?= auth()->user()->name; ?>
+                    <?= auth()->user()->name; ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
                     <a href="/admin/profile/" class="dropdown-item">Edit Profile</a>
-                    <a class="dropdown-item" style="cursor: pointer;" href="/admin/tokens"><i
-                                class="fa fa-power-off"></i> Regenerate API Token</a>
+                    @if(auth()->user()->isSuperAdmin())
+                        <a class="dropdown-item" style="cursor: pointer;" href="/admin/tokens">
+                            Regenerate API Token
+                        </a>
+                    @endif
                     <div class="dropdown-divider"></div>
 
                     <a class="dropdown-item" style="cursor: pointer;" href="/admin/logout/"><i

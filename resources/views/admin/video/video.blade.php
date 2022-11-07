@@ -1,31 +1,19 @@
-@include('admin.header')
-<style>
-    table img {
-        height:50px;
-    }
-</style>
-<script>
-    <?php if($data['success'] == 'Successfully added!') { ?>
-    setTimeout( function () {
-        blogAdded();
-    }, 1000);
-    <?php } ?>
-</script>
-<div class="main-panel">
-    <div class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <ul class="ml-0" style="padding-left: 15px;">
-                    <?php if(isset($data['breadcrumbs'])) {
-                    $b_count = count($data['breadcrumbs']); ?>
-                    <?php $i=1; foreach($data['breadcrumbs'] as $breadcrumb) { ?>
-                    <li class="badge"><a class="btn btn-default btn-xs" href="<?= $breadcrumb['href']; ?>"><?= $breadcrumb['title']; ?></a></li>
-                    <?php if($i!=$b_count) { ?>><?php } ?>
-                    <?php $i++; } ?>
-                    <?php } ?>
-                </ul>
-            </div>
-            <div class="row">
+@extends('layouts.app')
+@section('content')
+    <style>
+        table img {
+            height: 50px;
+        }
+    </style>
+    <script>
+        <?php if($data['success'] == 'Successfully added!') { ?>
+        setTimeout(function () {
+            blogAdded();
+        }, 1000);
+        <?php } ?>
+    </script>
+        <div class="container">
+            <div class="row pb-2">
                 <div class="col-md-6">
                     <h4 class="page-title">Video (<?= $data['count']; ?> items)</h4>
                     <span style="color:#ff0000;"><?= $data['error']; ?></span>
@@ -53,7 +41,7 @@
                                 </thead>
                                 <tbody>
                                 <?php if($data['video']) { ?>
-                                <?php $i=1;
+                                <?php $i = 1;
                                 foreach ($data['video'] as $item) { ?>
                                 <tr>
                                     <td width="80px"><?= $item->sort; ?></td>
@@ -63,19 +51,21 @@
                                     <td width="200px">
                                         <?php if($item->status == 1) { ?>On<?php } else { ?>Off<?php } ?>
                                     </td>
-                                    <td width="100px"><a href="/admin/video/edit/<?= $item->id; ?>/" class="btn btn-primary btn-round">Edit</a></td>
-                                    <td width="100px"><span onClick="deleteVideoItem('<?= $item->id; ?>', $(this));" class="btn btn-danger btn-round"> × Delete</span></td>
+                                    <td width="100px"><a href="/admin/video/edit/<?= $item->id; ?>/"
+                                                         class="btn btn-primary btn-round">Edit</a></td>
+                                    <td width="100px"><span onClick="deleteVideoItem('<?= $item->id; ?>', $(this));"
+                                                            class="btn btn-danger btn-round"> × Delete</span></td>
                                 </tr>
                                 <?php $i++; } ?>
                                 <?php } ?>
                                 </tbody>
                             </table>
-                            <?= $data['pagination']; ?>
+                            {{ $data['video']->links() }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-@include('admin.footer')
+@endsection
+

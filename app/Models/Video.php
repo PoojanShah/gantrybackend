@@ -14,6 +14,8 @@ class Video extends Model
 {
     use HasFactory;
 
+    public const STATUS_ACTIVE = 1;
+
     public $table = 'video';
 
     public function customers(): BelongsToMany

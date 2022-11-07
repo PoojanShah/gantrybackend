@@ -23,27 +23,38 @@ class LibraryController extends BaseController
 
     public function index(Auth $auth)
     {
-        $subscription = $this->remoteRepository
-            ->getOne($auth::user()->customer->getActiveSubscription()->zoho_subscription_id);
+        $activeSubscription = $auth::user()->customer->getActiveSubscription();
 
-        foreach ($subscription->addons as $addon) {
-            $addon->video = Video::where('zoho_addon_code', '=', $addon->addon_code)->first();
+        if($activeSubscription->plan_code === config('zoho.ZOHO_ALL_INCLUSIVE_PLAN_CODE')){
+            return view(
+                'admin.library.indexAllInclusive',
+                [
+                    'media' => Video::where('status', '=', Video::STATUS_ACTIVE)->get(),
+                ]
+            );
+        } else {
+            $subscription = $this->remoteRepository
+                ->getOne($activeSubscription->zoho_subscription_id);
+
+            foreach ($subscription->addons as $addon) {
+                $addon->video = Video::where('zoho_addon_code', '=', $addon->addon_code)->first();
+            }
+
+            $availableForSubscription = Video::whereNotNull('zoho_addon_code')
+                ->whereDoesntHave('customers', function (Builder $query) use ($auth) {
+                    $query->where('customers.id', '=', $auth::user()->customer_id);
+                })
+                ->get();
+
+            return view(
+                'admin.library.indexAddonBasedPlan',
+                [
+                    'subscription' => $subscription,
+                    'freeMedia' => Video::whereNull('zoho_addon_code')->where('status', '=', 1)->get(),
+                    'availableForSubscription' => $availableForSubscription,
+                ]
+            );
         }
-
-        $availableForSubscription = Video::whereNotNull('zoho_addon_code')
-            ->whereDoesntHave('customers', function (Builder $query) use ($auth) {
-                $query->where('customers.id', '=', $auth::user()->customer_id);
-            })
-            ->get();
-
-        return view(
-            'admin.library.index',
-            [
-                'subscription' => $subscription,
-                'freeMedia' => Video::whereNull('zoho_addon_code')->where('status', '=', 1)->get(),
-                'availableForSubscription' => $availableForSubscription,
-            ]
-        );
     }
 
     public function show(Video $media, AddonRemoteRepository $addonRemoteRepository)
@@ -53,7 +64,7 @@ class LibraryController extends BaseController
             [
                 'media' => $media,
                 'isAddonPayed' => $media->isAddonPayedByUser(Auth::user()),
-                'zohoAddon' => $addonRemoteRepository->getOne($media->zoho_addon_code)
+                'zohoAddon' => $media->zoho_addon_code  ? $addonRemoteRepository->getOne($media->zoho_addon_code) : null
             ]
         );
     }
