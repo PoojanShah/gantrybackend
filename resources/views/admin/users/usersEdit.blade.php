@@ -44,7 +44,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <form action="/admin/users/edit/<?= $data['user']->id; ?>/" method="post"
-                          enctype="multipart/form-data">
+                          enctype="multipart/form-data"
+                          oninput='passwordConfirmation.setCustomValidity(passwordConfirmation.value != password.value ? "Passwords do not match." : "")'
+                    >
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                         <div class="card-body row">
                             <div class="col-md-12">
@@ -64,27 +66,34 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="seourl">Password</label>
-                                    <input type="text" minlength="5" name="password" class="form-control"
+                                    <input type="password" minlength="5" name="password" class="form-control"
                                            id="password" placeholder="Password">
                                 </div>
-                            </div>
-
-
-                            <div class="col-md-12">
-                                <div class="form-check">
-                                    <label>Superadmin</label><br>
-                                    <label class="form-radio-label">
-                                        <input class="form-radio-input" type="radio" name="superadmin" value="1"
-                                               <?php if($data['user']->superadmin == 1) { ?>checked=""<?php } ?>>
-                                        <span class="form-radio-sign">On</span>
-                                    </label>
-                                    <label class="form-radio-label ml-3">
-                                        <input class="form-radio-input" type="radio" name="superadmin" value="0"
-                                               <?php if($data['user']->superadmin == 0) { ?>checked=""<?php } ?>>
-                                        <span class="form-radio-sign">Off</span>
-                                    </label>
+                                <div class="form-group">
+                                    <label for="passwordConfirmation">Password confirmation</label>
+                                    <input type="password" minlength="5" name="passwordConfirmation"
+                                           class="form-control"
+                                           id="passwordConfirmation" placeholder="password Confirmation">
                                 </div>
                             </div>
+
+                            @if(auth()->id() !== $data['user']->id )
+                                <div class="col-md-12">
+                                    <div class="form-check">
+                                        <label>Superadmin</label><br>
+                                        <label class="form-radio-label">
+                                            <input class="form-radio-input" type="radio" name="superadmin" value="1"
+                                                   <?php if($data['user']->superadmin == 1) { ?>checked=""<?php } ?>>
+                                            <span class="form-radio-sign">On</span>
+                                        </label>
+                                        <label class="form-radio-label ml-3">
+                                            <input class="form-radio-input" type="radio" name="superadmin" value="0"
+                                                   <?php if($data['user']->superadmin == 0) { ?>checked=""<?php } ?>>
+                                            <span class="form-radio-sign">Off</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="col-12">
                                 <button type="submit" class="btn btn-success">Submit</button>
                                 <a href="/admin/users/" class="btn btn-danger">Cancel</a>

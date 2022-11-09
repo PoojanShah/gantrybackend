@@ -6,6 +6,9 @@
     <title>{{ config('app.name', 'Health tool') }}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
           name='viewport'/>
+    <link rel="icon" href="/assets/img/cropped-CHS-favicon-32x32.png" sizes="32x32">
+    <link rel="icon" href="/assets/img/cropped-CHS-favicon-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/img/cropped-CHS-favicon-180x180.png">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -29,9 +32,9 @@ if (isset($link[2])) {
 }
 ?>
 @if(auth()->user())
-    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar bg-dark mb-5">
+    <header class="navbar navbar-expand navbar-light bg-white flex-column flex-md-row bd-navbar mb-5">
         <a href="/admin/" class="navbar-brand mr-0 mr-md-2 logo">
-            Admin Panel
+            <img  src="/assets/img/CHS.svg" alt="Admin Panel">
         </a>
 
         <div class="navbar-nav-scroll">
@@ -72,13 +75,16 @@ if (isset($link[2])) {
                     <?= auth()->user()->name; ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-                    <a href="/admin/profile/" class="dropdown-item">Edit Profile</a>
+{{--                    <a href="/admin/profile/" class="dropdown-item">Edit Profile</a>--}}
                     @if(auth()->user()->isSuperAdmin())
+                        <a class="dropdown-item" style="cursor: pointer;" href="{{route('users.edit', auth()->id())}}">
+                            Edit Profile
+                        </a>
                         <a class="dropdown-item" style="cursor: pointer;" href="/admin/tokens">
                             Regenerate API Token
                         </a>
                     @endif
-                    <div class="dropdown-divider"></div>
+{{--                    <div class="dropdown-divider"></div>--}}
 
                     <a class="dropdown-item" style="cursor: pointer;" href="/admin/logout/"><i
                                 class="fa fa-power-off"></i> Logout</a>

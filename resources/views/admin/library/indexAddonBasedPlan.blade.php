@@ -25,19 +25,7 @@
                     </div>
                     <div class="font-weight-bold pt-2">{{$media->title}}</div>
                     <div class="media-free font-weight-bold text-capitalize pt-2">FREE</div>
-                    <div class="tags-list pt-2 font-weight-bold">
-                        @if($media->tag_1)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$media->tag_1}}</span>
-                        @endif
-
-                        @if($media->tag_2)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$media->tag_2}}</span>
-                        @endif
-                        @if($media->tag_3)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$media->tag_3}}</span>
-                        @endif
-
-                    </div>
+                    @include('admin.library.tagsList', ['media' => $media])
                 </a>
             @endforeach
 
@@ -53,19 +41,7 @@
                     </div>
                     <div class="font-weight-bold pt-2">{{$addon->name}}</div>
                     <div class="media-price font-weight-bold pt-2">{{$addon->total}} {{$subscription->currency_code}}</div>
-                    <div class="tags-list pt-2 font-weight-bold">
-                        @if($addon->video->tag_1)
-                            <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$addon->video->tag_1}}</span>
-                        @endif
-
-                        @if($addon->video->tag_2)
-                            <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$addon->video->tag_2}}</span>
-                        @endif
-                        @if($addon->video->tag_3)
-                            <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$addon->video->tag_3}}</span>
-                        @endif
-
-                    </div>
+                    @include('admin.library.tagsList', ['media' => $addon->video])
                 </a>
             @endforeach
         </div>
@@ -80,19 +56,7 @@
                     </div>
                     <div class="font-weight-bold pt-2">{{$media->title}}</div>
                     <div class="media-free font-weight-bold text-capitalize pt-2">FREE</div>
-                    <div class="tags-list pt-2 font-weight-bold">
-                        @if($media->tag_1)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$media->tag_1}}</span>
-                        @endif
-
-                        @if($media->tag_2)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$media->tag_2}}</span>
-                        @endif
-                        @if($media->tag_3)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$media->tag_3}}</span>
-                        @endif
-
-                    </div>
+                    @include('admin.library.tagsList', ['media' => $media])
                 </a>
             @endforeach
 

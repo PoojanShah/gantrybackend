@@ -42,13 +42,13 @@ Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users')
 Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete')->middleware(['auth', 'auth.superAdminAccessOnly']);
 Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
 Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
-Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
+Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware(['auth', 'auth.superAdminAccessOnly'])->name('users.edit');
 Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
 
 
-Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
-Route::post('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
-Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileController@change');
+//Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
+//Route::post('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
+//Route::get('/admin/change_profile', '\App\Http\Controllers\Admin\ProfileController@change');
 
 //Route::get('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');
 //Route::post('/forgot', '\App\Http\Controllers\Auth\ForgotController@index')->name('forgot');

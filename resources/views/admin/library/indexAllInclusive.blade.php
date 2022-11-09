@@ -24,18 +24,7 @@
                         <img src="{{$singleMedia->thumbnail}}" class="img-thumbnail float-start">
                     </div>
                     <div class="font-weight-bold pt-2">{{$singleMedia->title}}</div>
-                    <div class="tags-list pt-2 font-weight-bold">
-                        @if($singleMedia->tag_1)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$singleMedia->tag_1}}</span>
-                        @endif
-                        @if($singleMedia->tag_2)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$singleMedia->tag_2}}</span>
-                        @endif
-                        @if($singleMedia->tag_3)
-                            <span class="media-tag btn btn-sm btn-rounded btn-outline-secondary">{{$singleMedia->tag_3}}</span>
-                        @endif
-
-                    </div>
+                    @include('admin.library.tagsList', ['media' => $singleMedia])
                 </a>
             @endforeach
 

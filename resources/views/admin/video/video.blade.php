@@ -27,7 +27,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-head-bg-default table-striped table-hover">
+                            <table class="table table-head-bg-default table-striped table-hover  table-responsive-sm">
                                 <thead>
                                 <tr>
                                     <th scope="col">Sort</th>

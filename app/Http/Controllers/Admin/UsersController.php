@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -41,9 +42,9 @@ class UsersController extends BaseController
 
         $per_page = 10;
 
-        $users = User::where('superadmin', '<>', 1)->orderBy('id', 'asc')->paginate($per_page);
+        $users = User::where('id', '<>', Auth::id())->orderBy('id', 'asc')->paginate($per_page);
 
-        $count = DB::table('users')->count();
+        $count = DB::table('users')->where('id', '<>', Auth::id())->count();
 
         $data['users'] = $users;
         $data['count'] = $count;
@@ -140,7 +141,7 @@ class UsersController extends BaseController
                         'name' => $request->post('name'),
                         'email' => $request->post('email'),
                         'password' => $password,
-                        'superadmin' => $request->post('superadmin'),
+                        'superadmin' => $request->post('superadmin', Auth::user()->superadmin),
                     ]);
                 }
                 else {
