@@ -3,15 +3,14 @@
 namespace App\Providers;
 
 use App\Interfaces\OAuthClientInterface;
-use App\Models\Settings;
 use App\Services\OAuthClient;
 use EinarHansen\Cache\CacheItemPool;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Illuminate\Contracts\Cache\Repository;
-use SudiptoChoudhury\Support\Forge\Api\Client;
 use SudiptoChoudhury\Zoho\Subscriptions\Api;
 
 class AppServiceProvider extends ServiceProvider
@@ -66,11 +65,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
+
         if(config('app.env') === 'production') {
             \URL::forceScheme('https');
         } else {
             \URL::forceScheme('http');
-
         }
     }
 }

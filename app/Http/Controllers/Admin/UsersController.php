@@ -2,42 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Expr\Array_;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\AdminController as Admin;
-use Illuminate\Support\Facades\Session;
 
 class UsersController extends BaseController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function users(Request $request)
     {
-        if($request->user()->superadmin != 1) {
-            abort(403);
-        }
-
-        $data = Array();
+        $data = [];
 
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
 
         $data['user'] = $request->user();
-
-        $href = $_SERVER['REQUEST_URI'];
-        $href = explode('/', $href);
-        $href = $href[2];
-
-        $data['breadcrumbs'] = Admin::breadcrumbs(__('Users'), $href);
 
         $data['request'] = $request->session()->get('datas');
 
@@ -60,10 +42,9 @@ class UsersController extends BaseController
 
         $per_page = 10;
 
-        $users = DB::table('users')->orderBy('id', 'asc')->paginate($per_page);
+        $users = User::where('id', '<>', Auth::id())->orderBy('id', 'asc')->paginate($per_page);
 
-        $count = DB::table('users')->count();
-        $data['pagination'] = Admin::lara_pagination($count, $per_page);
+        $count = DB::table('users')->where('id', '<>', Auth::id())->count();
 
         $data['users'] = $users;
         $data['count'] = $count;
@@ -79,20 +60,11 @@ class UsersController extends BaseController
 
     public function usersAdd(Request $request)
     {
-        if($request->user()->superadmin != 1) {
-            abort(403);
-        }
         $data['user'] = $request->user();
 
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
-
-        $href = $_SERVER['REQUEST_URI'];
-        $href = explode('/', $href);
-        $href = $href[2];
-
-        $data['breadcrumbs'] = Admin::breadcrumbs('User', $href);
 
         $data['request'] = $request->session()->get('datas');
 
@@ -117,18 +89,9 @@ class UsersController extends BaseController
 
     public function usersEdit(Request $request)
     {
-        if($request->user()->superadmin != 1) {
-            abort(403);
-        }
         $data['user'] = $request->user();
 
         $data['user'] = DB::table('users')->where('id', '=', $request->id)->first();
-
-        $href = $_SERVER['REQUEST_URI'];
-        $href = explode('/', $href);
-        $href = $href[2];
-
-        $data['breadcrumbs'] = Admin::breadcrumbs('User', $href);
 
         $data['error'] = '';
         $data['error_link'] = '';
@@ -178,7 +141,7 @@ class UsersController extends BaseController
                         'name' => $request->post('name'),
                         'email' => $request->post('email'),
                         'password' => $password,
-                        'superadmin' => $request->post('superadmin'),
+                        'superadmin' => $request->post('superadmin', Auth::user()->superadmin),
                     ]);
                 }
                 else {

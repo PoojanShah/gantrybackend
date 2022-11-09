@@ -27,8 +27,6 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
-        //var_dump(Hash::make('adminadmin'));
-        //$2y$10$rAKMWnxhvSyhiORLYgfnvuHcR/9HyxZg9cgZUgQUp74UK56weC0jG
         $old_user = User::first();
 
         $success = '';

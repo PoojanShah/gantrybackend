@@ -1,6 +1,6 @@
 @include('admin.header')
 
-<div class="main-panel">
+<div class="container">
 
 </div>
 

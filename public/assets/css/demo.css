@@ -303,3 +303,24 @@ body > .container-fluid, body > .main-panel, body > .container{
 	border-radius: 15px;
 	padding: 2px 5px;
 }
+header{
+	box-shadow: 0px 10px 16px -17px rgb(0 0 0 / 50%);
+}
+
+header a.logo{
+	max-width: 150px;;
+}
+
+header a.logo img{
+	width: 100%;
+}
+
+header .nav-item .nav-link, .dropdown-menu-right .dropdown-item{
+	color: #0099CC!important;
+}
+header .nav-item.active .nav-link, header .nav-item:hover .nav-link, header .nav-item:active .nav-link{
+	color: #00496E!important;
+}
+.navbar-nav-scroll .nav-item.active, .navbar-nav-scroll .nav-item:hover{
+	border-bottom: 3px solid #55595c;
+}

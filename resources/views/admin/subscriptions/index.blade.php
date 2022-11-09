@@ -13,7 +13,7 @@
                     @endif
                 </div>
                 <div class="col-md-12">
-                    <table class="table align-self-center">
+                    <table class="table align-self-center table-responsive-sm">
                         <thead>
                         <tr>
                             <th class="text-center" scope="col">Plan</th>

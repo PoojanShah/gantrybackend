@@ -4,22 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Video;
 use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Expr\Array_;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\AdminController as Admin;
-use Illuminate\Support\Facades\Session;
 
 class VideoController extends BaseController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function video(Request $request)
     {
         $data = [];
@@ -30,11 +20,7 @@ class VideoController extends BaseController
 
         $data['user'] = $request->user();
 
-        $href = $_SERVER['REQUEST_URI'];
-        $href = explode('/', $href);
-        $href = $href[2];
 
-        $data['breadcrumbs'] = Admin::breadcrumbs(__('Video'), $href);
 
         $data['request'] = $request->session()->get('datas');
 
@@ -69,8 +55,6 @@ class VideoController extends BaseController
         $video = $query->paginate($per_page);
         $count = $query->count();
 
-        $data['pagination'] = Admin::lara_pagination($count, $per_page);
-
         $data['video'] = $video;
         $data['count'] = $count;
 
@@ -98,16 +82,9 @@ class VideoController extends BaseController
 
     public function videoEdit(Request $request)
     {
-
         $data['user'] = $request->user();
 
         $data['video'] = DB::table('video')->where('id', '=', $request->id)->first();
-
-        $href = $_SERVER['REQUEST_URI'];
-        $href = explode('/', $href);
-        $href = $href[2];
-
-        $data['breadcrumbs'] = Admin::breadcrumbs('Video', $href);
 
         $data['error'] = '';
         $data['error_link'] = '';
@@ -198,12 +175,6 @@ class VideoController extends BaseController
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
-
-        $href = $_SERVER['REQUEST_URI'];
-        $href = explode('/', $href);
-        $href = $href[2];
-
-        $data['breadcrumbs'] = Admin::breadcrumbs('Video', $href);
 
         $data['request'] = $request->session()->get('datas');
 

@@ -41,11 +41,11 @@ class VideoController extends BaseController
         $data = [];
         $installationId = $request->header('InstallationId');
 
-        if ($installationId && !$customerModel->getActiveSubscriptionByInstallationId($installationId)) {
+        if ($installationId && !$activeSubscription = $customerModel->getActiveSubscriptionByInstallationId($installationId)) {
             return $data;
         }
 
-        foreach ($videoModel->getAvailableVideosObjects($installationId) as $video) {
+        foreach ($videoModel->getAvailableVideosObjects($activeSubscription) as $video) {
             $data[] = [
                 'thumbnail' => (!empty($video->thumbnail)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->thumbnail : '',
                 'media' => (!empty($video->video)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->video : '',
