@@ -9,10 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isNull;
 
 class Video extends Model
 {
     use HasFactory;
+
+    public const STATUS_ACTIVE = 1;
 
     public $table = 'video';
 
@@ -21,24 +24,25 @@ class Video extends Model
         return $this->belongsToMany(Customer::class);
     }
 
-    public function getAvailableVideosObjects(?string $installationId): Collection
+    public function getAvailableVideosObjects(?Subscription $subscription): Collection
     {
-        $query = DB::table($this->table)->select('video.*')->where('status', '=', 1);
+        $installationId = $subscription ? $subscription->customer->installation_id : null;
 
-        if ($installationId) {
+        $query = self::select('video.*')->where('status', '=', 1);
+
+        if ($installationId && $subscription->plan_code !==  config('zoho.ZOHO_ALL_INCLUSIVE_PLAN_CODE')) {
             $query->leftJoin('customer_video', 'video.id', '=', 'customer_video.video_id')
                 ->leftJoin('customers', 'customer_video.customer_id', '=', 'customers.id')
                 ->leftJoin('subscriptions', 'customers.id', '=', 'subscriptions.customer_id')
                 ->whereIn('subscriptions.subscription_status', Subscription::ACTIVE_STATUSES)
                 ->where('customers.installation_id', '=', $installationId)
                 ->orWhereNull('video.zoho_addon_code');
-        } else {
-            $query = DB::table($this->table)
-                ->whereNull('video.zoho_addon_code');
+        } elseif($installationId === null) {
+            $query->whereNull('video.zoho_addon_code');
         }
 
         return static::hydrate(
-            $query->where('status', '=', 1)->distinct('video.id')->orderBy('sort')->get()->toArray()
+            $query->distinct('video.id')->orderBy('video.zoho_addon_code')->get()->toArray()
         );
     }
 

@@ -1,8 +1,8 @@
-<footer class="footer">
+<footer class="footer mt-5">
     <div class="container-fluid">
 
         <div class="copyright ml-auto">
-            &copy; <?= date('Y'); ?>
+            Copyright © <?= date('Y'); ?>  Comfort Health Solutions. All rights reserved.
         </div>
     </div>
 </footer>

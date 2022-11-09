@@ -8,4 +8,5 @@ return [
     'ZOHO_API_REFRESH_TOKEN' => env('ZOHO_API_REFRESH_TOKEN'),
     'ZOHO_API_REGION' => env('ZOHO_API_REGION'),
     'ZOHO_TOKEN' => env('ZOHO_TOKEN'),//token for hooks
+    'ZOHO_ALL_INCLUSIVE_PLAN_CODE' => env('ZOHO_ALL_INCLUSIVE_PLAN_CODE', 'all_inclusive_plan'),
 ];

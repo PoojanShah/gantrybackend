@@ -46,6 +46,7 @@ class SubscriptionController extends BaseController
                     'name' => $customerData['first_name'],
                     'email' => $customerData['email'],
                     'password' => Hash::make($plainPassword),
+                    'customer_id' => $customer->id
                 ]);
                 $user->save();
                 Mail::to($customerData['email'])
@@ -85,6 +86,7 @@ class SubscriptionController extends BaseController
             return $subscription;
         }  catch (Exception $e) {
             DB::rollBack();
+            dump($e);
             Log::error($e->getMessage(), $e->getTrace());
             return new Response(
                 'Hook processing error! Data is not in sync, if next hook executed successfully then data in would be in sync!',

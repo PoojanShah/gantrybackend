@@ -32,7 +32,7 @@ class Customer extends Model
 
     public function getActiveSubscriptionByInstallationId(string $installationId)
     {
-        return  DB::table('subscriptions')->select('subscriptions.*')
+        return  Subscription::select('subscriptions.*')
             ->leftJoin('customers', 'subscriptions.customer_id',  '=', 'customers.id')
             ->whereIn('subscriptions.subscription_status',Subscription::ACTIVE_STATUSES)
             ->where('customers.installation_id', '=', $installationId)
