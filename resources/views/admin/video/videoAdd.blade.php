@@ -108,7 +108,7 @@
                                 <div class="form-group">
                                     <label for="exampleFormControlFile2">Thumbnail</label>
                                     <input type="file" name="thumbnail" class="form-control-file"
-                                           onchange="previewImage2(event)" accept="image/jpeg,image/png,image/gif"
+                                           onchange="previewImage2(event)" accept="image/png"
                                            id="exampleFormControlFile2">
                                     <img style="display: none;background: #ddd;" src="" id="output_image2"
                                          class="create-event__file-preview"/>
@@ -120,7 +120,7 @@
                                 <div class="form-group">
                                     <label>Media</label>
                                     <input type="file" name="video" class="form-control-file"
-                                           accept="image/jpeg,image/png,image/gif,,video/mp4,video/quicktime,video/x-msvideo,ideo/x-flv">
+                                           accept="image/jpeg,image/png,image/gif,video/mp4,video/quicktime,video/x-msvideo,ideo/x-flv">
                                 </div>
 
                             </div>
