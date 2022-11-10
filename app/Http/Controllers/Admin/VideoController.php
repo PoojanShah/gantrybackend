@@ -146,7 +146,7 @@ class VideoController extends BaseController
             if (file_exists(public_path($videoModel->thumbnail))) {
                 unlink(public_path($videoModel->thumbnail));
             }
-            $thumbName = $this_date . '_thumb_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
+            $thumbName = $this_date . '_thumb-' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
             $uploadedFile3->move('uploadfiles/', $thumbName);
             $thumbnail = '/uploadfiles/' . $thumbName;
         }
@@ -224,7 +224,7 @@ class VideoController extends BaseController
 
         if ($uploadedFile3 = $request->file('thumbnail')) {
             if ($uploadedFile3->isValid()) {
-                $thumbName = $this_date . '_thumb_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
+                $thumbName = $this_date . '_thumb-' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
                 $uploadedFile3->move('uploadfiles/', $thumbName);
                 $thumbnail = '/uploadfiles/' . $thumbName;
             }
