@@ -6,12 +6,9 @@ namespace App\Repositories;
 
 use App\DTO\Addon;
 use App\DTO\DataTransferObject;
-use App\DTO\Subscription;
-use App\DTO\SubscriptionPreview;
-use App\Models\Customer;
 use App\Services\DTONormalizer;
+use GuzzleHttp\Command\Result;
 use Illuminate\Support\Collection;
-use phpDocumentor\Reflection\DocBlockFactoryInterface;
 use SudiptoChoudhury\Zoho\Subscriptions\Api;
 
 class AddonRemoteRepository
@@ -27,39 +24,46 @@ class AddonRemoteRepository
         $this->collection = $collection;
     }
 
-    public function addRemoveSubscriptionAddon(
-        Subscription $subscription,
-        array $addZohoAddonCodes = [],
-        array $removeZohoAddonCodes = [],
-    ): Subscription {
+    public function buyOneTimeAddons(
+        \App\Models\Subscription $subscription,
+        array $addZohoAddonCodes,
+    ): bool {
+// logic for recurring addons
+//        if ($removeZohoAddonCodes) {
+//            foreach ($subscription->addons as $k => $addon) {
+//                if (in_array($addon->addon_code, $removeZohoAddonCodes, true)) {
+//                    unset($subscription->addons[$k]);
+//                }
+//            }
+//        }
+//
+//        foreach ($this->getAddonsByPlanCode($subscription->plan->plan_code) as $addon) {
+//            if (in_array($addon->addon_code, $addZohoAddonCodes, true)) {
+//                $subscription->addons[] = $addon;
+//            }
+//        }
+//        $subscription = (array)$subscription;
+//        foreach ($subscription['addons'] as $k => $addon){
+//            $subscription['addons'][$k] = (array)$addon;
+//        }
 
-        if ($removeZohoAddonCodes) {
-            foreach ($subscription->addons as $k => $addon) {
-                if (in_array($addon->addon_code, $removeZohoAddonCodes, true)) {
-                    unset($subscription->addons[$k]);
-                }
-            }
-        }
-
-        if ($addZohoAddonCodes) {
-            foreach ($this->getAddonsByPlanCode($subscription->plan->plan_code) as $addon) {
-                if (in_array($addon->addon_code, $addZohoAddonCodes, true)) {
-                    $subscription->addons[] = $addon;
-                }
-            }
-        }
-        $subscription = (array)$subscription;
-        foreach ($subscription['addons'] as $k => $addon){
-            $subscription['addons'][$k] = (array)$addon;
-        }
-
-        return $this->normalizer->denormalize($this->apiClient->updateSubscription(
+        /** @var Result $response */
+        $response = $this->apiClient->addSubscriptionOnetimeAddon(
             [
-                'subscription_id' => $subscription['subscription_id'],
-                'parameters' => ['addons' =>  $subscription['addons']]
+                'subscription_id' => $subscription->zoho_subscription_id,
+                'addons' => array_map(
+                    function ($value) {
+                        return [
+                            'addon_code' => $value,
+                            'quantity' => 1,
+                        ];
+                    },
+                    $addZohoAddonCodes
+                ),
             ]
-        )
-            ->toArray()['subscription'], Subscription::class);
+        )->toArray();
+
+        return (int)$response['code'] === 0;
     }
 
     public function getOne(string $addonCode): DataTransferObject
@@ -68,9 +72,13 @@ class AddonRemoteRepository
             ->toArray()['addon'], Addon::class);
     }
 
-    public function getAddonsByPlanCode(string $planCode): Collection
+    public function getAddonsByPlanCode(string $planCode, string $status = 'ACTIVE'): Collection
     {
-        $response = $this->apiClient->getPlanAddons(['plan_code' => $planCode])->toArray();
+        $response = $this->apiClient->getPlanAddons([
+                'plan_code' => $planCode,
+                'filter_by' => 'AddonStatus.' . $status
+            ])
+            ->toArray();
 
         if (isset($response['addons'])) {
             foreach ($response['addons'] as $subscriptionParams) {
@@ -80,5 +88,4 @@ class AddonRemoteRepository
 
         return $this->collection;
     }
-
 }

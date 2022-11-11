@@ -7,8 +7,8 @@
             </div>
             <div class="col-md-12">
                 @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
+                    <div class="alert alert-{{session('status')}}" role="alert">
+                        {{ session('message') }}
                     </div>
                 @endif
             </div>
@@ -21,7 +21,7 @@
             @foreach($freeMedia as $media)
                 <a class="col-md-3" href="{{route('library.show', $media->id)}}">
                     <div class="media-thumbnail">
-                        <img src="{{$media->thumbnail}}" class="img-thumbnail float-start">
+                        <img src="{{$media->thumbnail}}" class="img-thumbnail float-start border-0">
                     </div>
                     <div class="font-weight-bold pt-2">{{$media->title}}</div>
                     <div class="media-free font-weight-bold text-capitalize pt-2">FREE</div>
@@ -32,16 +32,15 @@
         </div>
         <div class="row">
             <div class="col-md-12 pt-5 pb-2">
-                <h5 class="font-weight-bold">Paid</h5>
+                <h5 class="font-weight-bold">Purchased</h5>
             </div>
-            @foreach($subscription->addons as $addon)
-                <a class="col-md-3" href="{{route('library.show', $addon->video->id)}}">
+            @foreach($purchasedMedia as $media)
+                <a class="col-md-3" href="{{route('library.show', $media->id)}}">
                     <div class="media-thumbnail">
-                        <img src="{{$addon->video->thumbnail}}" class="img-thumbnail float-start">
+                        <img src="{{$media->thumbnail}}" class="img-thumbnail float-start border-0">
                     </div>
-                    <div class="font-weight-bold pt-2">{{$addon->name}}</div>
-                    <div class="media-price font-weight-bold pt-2">{{$addon->total}} {{$subscription->currency_code}}</div>
-                    @include('admin.library.tagsList', ['media' => $addon->video])
+                    <div class="font-weight-bold pt-2">{{$media->title}}</div>
+                    @include('admin.library.tagsList', ['media' => $media])
                 </a>
             @endforeach
         </div>
@@ -49,14 +48,15 @@
             <div class="col-md-12 pt-5 pb-2">
                 <h5 class="font-weight-bold">Available for subscription</h5>
             </div>
-            @foreach($availableForSubscription as $media)
-                <a class="col-md-3" href="{{route('library.show', $media->id)}}">
+
+            @foreach($availableForPurchasingAddons as $addon)
+                <a class="col-md-3" href="{{route('library.show', $addon->video->id)}}">
                     <div class="media-thumbnail">
-                        <img src="{{$media->thumbnail}}" class="img-thumbnail float-start">
+                        <img src="{{$addon->video->thumbnail}}" class="img-thumbnail float-start border-0">
                     </div>
-                    <div class="font-weight-bold pt-2">{{$media->title}}</div>
-                    <div class="media-free font-weight-bold text-capitalize pt-2">FREE</div>
-                    @include('admin.library.tagsList', ['media' => $media])
+                    <div class="font-weight-bold pt-2">{{$addon->video->title}}</div>
+                    <div class="media-price font-weight-bold pt-2">{{$addon->price_brackets[0]['price']}} {{$subscription->currency_code}}</div>
+                    @include('admin.library.tagsList', ['media' => $addon->video])
                 </a>
             @endforeach
 
