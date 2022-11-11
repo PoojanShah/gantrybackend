@@ -1,32 +1,19 @@
 <?php
 
-use App\Http\Controllers\MailGunController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Auth\LoginController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/subscriptions', '\App\Http\Controllers\Admin\SubscriptionController@index')->name('subscriptions.index');
-Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\SubscriptionController@show')->name('subscriptions.show');
-Route::get('/admin/subscriptions/{id}/activate', '\App\Http\Controllers\Admin\SubscriptionController@activate')->name('subscriptions.activate');
+Route::get('/admin/subscriptions', '\App\Http\Controllers\Admin\SubscriptionController@index')->middleware(['auth'])->name('subscriptions.index');
+Route::get('/admin/subscriptions/{id}', '\App\Http\Controllers\Admin\SubscriptionController@show')->middleware(['auth'])->name('subscriptions.show');
+Route::get('/admin/subscriptions/{id}/activate', '\App\Http\Controllers\Admin\SubscriptionController@activate')->middleware(['auth'])->name('subscriptions.activate');
 
-Route::get('/admin/library', '\App\Http\Controllers\Admin\LibraryController@index')->name('library.index');
-Route::get('/admin/library/{media}', '\App\Http\Controllers\Admin\LibraryController@show')->name('library.show');
-Route::post('/admin/library/{media}/subscribe', '\App\Http\Controllers\Admin\LibraryController@subscribeAddon')->name('library.subscribeAddon');
+Route::get('/admin/library', '\App\Http\Controllers\Admin\LibraryController@index')->middleware(['auth'])->name('library.index');
+Route::get('/admin/library/{media}', '\App\Http\Controllers\Admin\LibraryController@show')->middleware(['auth'])->name('library.show');
+Route::post('/admin/library/{media}/subscribe', '\App\Http\Controllers\Admin\LibraryController@buyOneTimeAddon')->middleware(['auth'])->name('library.buyOneTimeAddon');
 
 //Videos
 Route::get('/admin/video/', '\App\Http\Controllers\Admin\VideoController@video')->middleware(['auth', 'auth.superAdminAccessOnly']);
@@ -36,7 +23,6 @@ Route::post('/admin/video/edit/{id?}', '\App\Http\Controllers\Admin\VideoControl
 Route::get('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
 Route::post('/admin/video/add/', '\App\Http\Controllers\Admin\VideoController@videoPostAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
 
-
 //Users
 Route::get('/admin/users/', '\App\Http\Controllers\Admin\UsersController@users')->middleware(['auth', 'auth.superAdminAccessOnly']);
 Route::get('/admin/users/delete/', '\App\Http\Controllers\Admin\UsersController@usersDelete')->middleware(['auth', 'auth.superAdminAccessOnly']);
@@ -44,7 +30,6 @@ Route::get('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@use
 Route::post('/admin/users/add/', '\App\Http\Controllers\Admin\UsersController@usersPostAdd')->middleware(['auth', 'auth.superAdminAccessOnly']);
 Route::get('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersEdit')->middleware(['auth', 'auth.superAdminAccessOnly'])->name('users.edit');
 Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersController@usersPostEdit')->middleware(['auth', 'auth.superAdminAccessOnly']);
-
 
 //Route::get('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
 //Route::post('/admin/profile', '\App\Http\Controllers\Admin\ProfileController@index')->name('profile');
@@ -57,7 +42,11 @@ Route::post('/admin/users/edit/{id?}', '\App\Http\Controllers\Admin\UsersControl
 //Dashboard
 Route::get('/admin/', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/tokens', [AdminController::class, 'zohoTokensManagement'])->name('zohoTokensManagement')->middleware(['auth', 'auth.superAdminAccessOnly']);
-Route::get('/home/', function () {
+Route::get('/home/', function (\Illuminate\Support\Facades\Auth $auth) {
+    if(!$auth::user()->isSuperAdmin()){
+        return redirect()->route('library.index');
+    }
+
     return redirect('/admin/');
 });
 

@@ -4,18 +4,18 @@
     <div class="container">
 
         <div class="row " style="line-height: 3em;">
-            <div class="col-9  mt-auto mx-auto h3">{{$media->title}}</div>
-            <div class="col-3 mt-auto mx-auto">
+            <div class="col-md-9 col-sm-12 mt-auto mx-auto h3">{{$media->title}}</div>
+            <div class="col-md-3 col-sm-12 mt-auto mx-auto">
                 @if(!$media->zoho_addon_code)
                     <span class="text-success text-uppercase font-weight-bold h5">FREE</span>
                 @elseif($isAddonPayed)
-                    <span class="text-success text-uppercase font-weight-bold h5">SUBSCRIBED</span>
+                    <span class="text-success text-uppercase font-weight-bold h5">PURCHASED</span>
                 @else
-                    <form action="{{ route('library.subscribeAddon', $media->id) }}" method="POST" id="addAddonForm">
+                    <form action="{{ route('library.buyOneTimeAddon', $media->id) }}" method="POST" id="addAddonForm">
                         @csrf
                         @method('POST')
                         <a onclick="document.getElementById('addAddonForm').submit();" href="#" class="text-danger text-uppercase font-weight-bold h5">
-                            SUBSCRIBE FOR {{$zohoAddon->price_brackets[0]['price']}} $
+                            BUY FOR {{$zohoAddon->price_brackets[0]['price']}} $
                         </a>
                     </form>
                 @endif
@@ -28,7 +28,7 @@
                 @else
                     <video
                             id="video"
-                            class="video-js"
+                            class="video-js col-sm-12 col-md-6"
                             controls
                             preload="auto"
                             width="640"

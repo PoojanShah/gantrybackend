@@ -7,8 +7,6 @@
     <div class="container">
         <div class="row justify-content-end font-weight-bold text-right">
             <div class="col-xs-12 col-sm-3">
-                @csrf
-                @method('POST')
                 @if($subscription->status === 'live')
                     <div class="btn btn-md btn-danger font-weight-bold" data-toggle="popover" title="Cancel"
                          data-content="To cancel subscription contact us by email:
@@ -25,6 +23,7 @@
             <div class="col-12 mb-2">
                 <h3 class="text-center">{{__($subscription->name) }} </h3>
             </div>
+
             <h6 class="col-12 mb-2 mt-2">
                 Billing Details
             </h6>
@@ -33,14 +32,17 @@
                 <div class="text-muted">Activation Date :</div>
                 <div class="">{{ $subscription->activated_at ? $subscription->activated_at->format('d/m/Y') : '---'}}</div>
             </div>
+
             <div class="col-sm-3">
                 <div class="text-muted">Previous Billing Date :</div>
                 <div class="">{{ $subscription->last_billing_at ? $subscription->last_billing_at->format('d/m/Y') : '---' }}</div>
             </div>
+
             <div class="col-sm-3">
                 <div class="text-muted">Expiration Date :</div>
                 <div class="">{{ $subscription->expires_at ? $subscription->expires_at->format('d/m/Y') : '---' }}</div>
             </div>
+
             <div class="col-sm-3">
                 <div class="text-muted">Status</div>
                 <div class="">{{ $subscription->status}}</div>
@@ -49,7 +51,8 @@
             <h6 class="col-12 mb-2 mt-4">
                 Subscription Details
             </h6>
-            <div class="col-md-12 card">
+
+            <div class="col-md-12 card  p-0">
                 <div class="card-body">
                     <div class="row font-weight-bold">
                         <div class="col-4">Item</div>
@@ -59,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 card">
+            <div class="col-md-12 card p-0 mt-3">
                 <div class="card-header">
                     PLAN
                 </div>
@@ -72,7 +75,7 @@
                 </div>
             </div>
             @if(count($subscription->addons)  > 0 )
-                <div class="col-md-12 card">
+                <div class="col-md-12 card p-0 mt-3">
                     <div class="card-header">
                         ADDONS
                     </div>
@@ -93,13 +96,15 @@
                 </div>
             @endif
         </div>
+
         <div class="row justify-content-end ">
-            <div class="col-sm-6 col-xs-12">
+            <div class="col-sm-6 col-xs-12 pt-3">
                 <div class="row font-weight-bold text-center">
                     <div class="col-xs-12 col-sm-3">Total :</div>
                     <div class="col-xs-12 col-sm-3">{{$subscription->amount + $addonsTotal}} {{$subscription->currency_code}} </div>
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
