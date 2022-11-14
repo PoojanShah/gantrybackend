@@ -5,21 +5,25 @@
 
         <div class="row " style="line-height: 3em;">
             <div class="col-md-9 col-sm-12 mt-auto mx-auto h3">{{$media->title}}</div>
-            <div class="col-md-3 col-sm-12 mt-auto mx-auto">
-                @if(!$media->zoho_addon_code)
-                    <span class="text-success text-uppercase font-weight-bold h5">FREE</span>
-                @elseif($isAddonPayed)
-                    <span class="text-success text-uppercase font-weight-bold h5">PURCHASED</span>
-                @else
-                    <form action="{{ route('library.buyOneTimeAddon', $media->id) }}" method="POST" id="addAddonForm">
-                        @csrf
-                        @method('POST')
-                        <a onclick="document.getElementById('addAddonForm').submit();" href="#" class="text-danger text-uppercase font-weight-bold h5">
-                            BUY FOR {{$zohoAddon->price_brackets[0]['price']}} $
-                        </a>
-                    </form>
-                @endif
-            </div>
+            @if($subscription->plan->plan_code !== config('zoho.ZOHO_ALL_INCLUSIVE_PLAN_CODE'))
+                <div class="col-md-3 col-sm-12 mt-auto mx-auto">
+                    @if(!$media->zoho_addon_code)
+                        <span class="text-success text-uppercase font-weight-bold h5">FREE</span>
+                    @elseif($isAddonPayed)
+                        <span class="text-success text-uppercase font-weight-bold h5">PURCHASED</span>
+                    @else
+                        <form action="{{ route('library.buyOneTimeAddon', $media->id) }}" method="POST"
+                              id="addAddonForm">
+                            @csrf
+                            @method('POST')
+                            <span onclick="document.getElementById('addAddonForm').submit();"
+                               class="text-danger text-uppercase font-weight-bold h5 c-pointer">
+                                BUY FOR {{$zohoAddon->price_brackets[0]['price']}} {{$subscription->currency_code}}
+                            </span>
+                        </form>
+                    @endif
+                </div>
+            @endif
         </div>
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -50,19 +54,7 @@
             </div>
             <div class="col-md-12 pt-4">
                 <h4>Tags</h4>
-                <div class="tags-list pt-2 font-weight-bold">
-                    @if($media->tag_1)
-                        <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$media->tag_1}}</span>
-                    @endif
-
-                    @if($media->tag_2)
-                        <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$media->tag_2}}</span>
-                    @endif
-                    @if($media->tag_3)
-                        <span class="media-tag btn btn-xs btn-rounded btn-outline-secondary">{{$media->tag_3}}</span>
-                    @endif
-
-                </div>
+                @include('admin.library.tagsList', ['media' => $media])
             </div>
         </div>
     </div>

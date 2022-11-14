@@ -35,8 +35,7 @@
                                     <th scope="col">Thumbnail</th>
                                     <th scope="col">Addon code</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Edit</th>
-                                    <th scope="col">Delete</th>
+                                    <th scope="col"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -44,17 +43,19 @@
                                 <?php $i = 1;
                                 foreach ($data['video'] as $item) { ?>
                                 <tr>
-                                    <td width="80px"><?= $item->sort; ?></td>
+                                    <td><?= $item->sort; ?></td>
                                     <td><?= $item->title; ?></td>
                                     <td><img src="<?= $item->thumbnail; ?>"></td>
-                                    <td width="80px"><?= $item->zoho_addon_code; ?></td>
-                                    <td width="200px">
+                                    <td><?= $item->zoho_addon_code; ?></td>
+                                    <td>
                                         <?php if($item->status == 1) { ?>On<?php } else { ?>Off<?php } ?>
                                     </td>
-                                    <td width="100px"><a href="/admin/video/edit/<?= $item->id; ?>/"
-                                                         class="btn btn-primary btn-round">Edit</a></td>
-                                    <td width="100px"><span onClick="deleteVideoItem('<?= $item->id; ?>', $(this));"
-                                                            class="btn btn-danger btn-round"> × Delete</span></td>
+                                    <td>
+                                        <a href="/admin/video/edit/<?= $item->id; ?>/"
+                                           class="btn btn-primary btn-round icon-box"><i class="gg-pen"></i></a>
+                                        <span onClick="deleteVideoItem('<?= $item->id; ?>', $(this));"
+                                              class="btn btn-danger btn-round  icon-box"><i class="gg-trash"></i> </span>
+                                    </td>
                                 </tr>
                                 <?php $i++; } ?>
                                 <?php } ?>

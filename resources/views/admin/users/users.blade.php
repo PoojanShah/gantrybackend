@@ -34,7 +34,6 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">User Type</th>
                                 <th scope="col"></th>
-                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -42,15 +41,17 @@
                             <?php $i = 1;
                             foreach ($data['users'] as $item) { ?>
                             <tr>
-                                <td width="80px"><?= $item->id; ?></td>
-                                <td width="100px"><?= $item->email; ?></td>
-                                <td width="200px">
-                                    <?php if($item->superadmin == 1) { ?>Superadmin<?php } else { ?>Admin<?php } ?>
+                                <td><?= $item->id; ?></td>
+                                <td><?= $item->email; ?></td>
+                                <td>
+                                    <?php if($item->superadmin == 1) { ?>Superadmin<?php } else { ?>Customer<?php } ?>
                                 </td>
-                                <td width="100px"><a href="/admin/users/edit/<?= $item->id; ?>/"
-                                                     class="btn btn-primary btn-round">Edit</a></td>
-                                <td width="100px"><span onClick="deleteUsersItem('<?= $item->id; ?>', $(this));"
-                                                        class="btn btn-danger btn-round"> × Delete</span></td>
+                                <td>
+                                    <a href="/admin/users/edit/<?= $item->id; ?>/"
+                                       class="btn btn-primary btn-round icon-box"><i class="gg-pen"></i></a>
+                                    <span onClick="deleteUsersItem('<?= $item->id; ?>', $(this));"
+                                          class="btn btn-danger btn-round  icon-box"><i class="gg-trash"></i> </span>
+                                </td>
                             </tr>
                             <?php $i++; } ?>
                             <?php } ?>
