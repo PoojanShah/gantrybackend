@@ -411,3 +411,18 @@ header .nav-item.active .nav-link, header .nav-item:hover .nav-link, header .nav
 .navbar-nav-scroll .nav-item.active, .navbar-nav-scroll .nav-item:hover {
     border-bottom: 3px solid #55595c;
 }
+.icon-box{
+    width: 40px;
+    height: 40px;
+    line-height: initial;
+}
+.icon-box>i{
+    margin: auto;
+    display: inline-block;
+}
+.icon-box>i.gg-trash{
+    margin-top: 8px;
+}
+.c-pointer{
+    cursor: pointer;
+}

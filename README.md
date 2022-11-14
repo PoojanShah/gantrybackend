@@ -57,7 +57,14 @@ DB password - 9AYp9wiW7xoYPJWP
  <li>
         <h2>ZOHO Subscription creation</h2>
         <p>
-            ZOHO doesnt wait till payment gt processed!!! It makes subscription live once you created it!!!    
+            ZOHO doesnt wait till payment gt processed!!! It makes subscription live once you created it!!! </br> </br>
+            Every Customer has unique <b>InstallationId</b>. </br></br>
+            By this parameter API service can identify customer installation. </br></br>
+            So if you add new customer you has to specify this parameter </br></br>
+            Once first subscription created Subscription Hook will be executed and API creates User account with Customer email taken from Zoho. </br>
+            User credentials will be sent to Customer email specified in Zoho.</br>
+            </br>
+             Password created for usr is permanent, but might be changed by password forgotten feature
         </p>
     </li>
 </ul>
