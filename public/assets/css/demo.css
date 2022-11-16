@@ -185,6 +185,9 @@
     .pagination-numbers__number:first-of-type .pagination-numbers__link {
         min-width: 34px;
     }
+    .library-title{
+        font-size: 2rem;
+    }
 }
 
 .pagination-numbers__number:first-of-type .pagination-numbers__link:hover .pagination-numbers__arrow:before {
@@ -385,7 +388,8 @@ body > .container-fluid, body > .main-panel, body > .container {
 
 .media-tag {
     border-radius: 15px;
-    padding: 2px 5px;
+    padding: 3px 5px;
+    line-height: 1.2;
 }
 
 header {
@@ -425,4 +429,52 @@ header .nav-item.active .nav-link, header .nav-item:hover .nav-link, header .nav
 }
 .c-pointer{
     cursor: pointer;
+}
+.media-item, .media-item:hover{
+    color: black;
+    text-decoration: none!important;
+}
+.media-item .media-thumbnail{
+    position:relative;
+}
+.media-item img{
+    padding: 0;
+    border-radius: 0;
+}
+.media-item .media-badge{
+    font-size: 0.8em;
+    display: block;
+    font-weight: bold;
+    padding: 1px 7px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 0 5px 0 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.media-item .media-badge .gg{
+    display: inline-block;
+    margin-right: 8px;
+    --ggs: 0.85;
+    top: 2px;
+}
+.media-item .media-thumbnail{
+   border-radius: 0;
+    padding: 0;
+}
+.media-free{
+    color: mediumseagreen;
+}
+.media-price small{
+    line-height: 1.5em;
+    vertical-align: top;
+}
+.library-title{
+    background: linear-gradient(rgb(21, 13, 107) 1.1%, rgb(188, 16, 80) 130.5%);
+    color: white;
+    font-size: 4rem;
+    padding: 8rem 0;
+}
+.library-title-block{
+    margin-top: -3rem;
 }

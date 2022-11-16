@@ -34,7 +34,8 @@ class SubscriptionController extends BaseController
             $customer = Customer::where('zoho_customer_id', $customerData['customer_id'])->first();
 
             if ($customer) {
-                $customer->videos()->detach();
+//                recurring addons processing
+//                $customer->videos()->detach();
             } else {
                 $customer = new Customer();
                 $customer->zoho_customer_id = $customerData['customer_id'];
@@ -57,8 +58,6 @@ class SubscriptionController extends BaseController
                             route('password.request')
                         )
                     );
-
-                //TODO create user with email from customer and random email ...send email with link to password reset page
             }
 
             $subscription = $subscription ?? new Subscription();
@@ -73,20 +72,21 @@ class SubscriptionController extends BaseController
             $subscription->zoho_customer_id = $subscriptionData['customer_id'];
             $subscription->save();
 
-            if (isset($subscriptionData['addons'])) {
-                foreach ($subscriptionData['addons'] as $addon) {
-                    if ($video = Video::where('zoho_addon_code', $addon['addon_code'])->first()) {
-                        $customer->videos()->attach($video->id);
-                    }
-                }
-            }
+//            recurring addons processing
+//            if (isset($subscriptionData['addons'])) {
+//                foreach ($subscriptionData['addons'] as $addon) {
+//                    if ($video = Video::where('zoho_addon_code', $addon['addon_code'])->first()) {
+//                        $customer->videos()->attach($video->id);
+//                    }
+//                }
+//            }
 
             DB::commit();
 
             return $subscription;
+            
         }  catch (Exception $e) {
             DB::rollBack();
-            dump($e);
             Log::error($e->getMessage(), $e->getTrace());
             return new Response(
                 'Hook processing error! Data is not in sync, if next hook executed successfully then data in would be in sync!',
