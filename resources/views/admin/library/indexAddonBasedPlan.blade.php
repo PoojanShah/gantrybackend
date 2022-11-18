@@ -50,6 +50,25 @@
                 </a>
             @endforeach
         </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="subscription-tip card">
+                    <div class="card-header font-weight-bold">
+                        Tip
+                    </div>
+                    <div class="card-body text-muted">
+                        <div>
+                            You can change your subscription plan to "All inclusive" and get access to all videos! <br>
+                            Just contact us by email:
+                            <a href = "mailto:@php echo \Illuminate\Support\Facades\Config::get('app.ADMIN_EMAIL'); @endphp">
+                                @php echo \Illuminate\Support\Facades\Config::get('app.ADMIN_EMAIL'); @endphp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 pt-5 pb-2">
                 <h4 class="font-weight-bold pt-2 pb-2">Available for subscription</h4>
@@ -62,7 +81,9 @@
                         @include('admin.library.mediaBadge', ['media' => $addon->video])
                     </div>
                     <div class="font-weight-bold pt-2">{{$addon->video->title}}</div>
-                    <div class="media-price font-weight-bold pt-2"><small class="font-weight-bold">{{$subscription->currency_symbol}}</small> {{$addon->price_brackets[0]['price']}} </div>
+                    <div class="media-price font-weight-bold pt-2"><small
+                                class="font-weight-bold">{{$subscription->currency_symbol}}</small> {{$addon->price_brackets[0]['price']}}
+                    </div>
                     @include('admin.library.tagsList', ['media' => $addon->video])
                 </a>
             @endforeach

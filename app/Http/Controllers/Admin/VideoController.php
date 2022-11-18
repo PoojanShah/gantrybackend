@@ -13,20 +13,16 @@ class VideoController extends BaseController
     public function video(Request $request)
     {
         $data = [];
-
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
-
         $data['user'] = $request->user();
-
-
-
         $data['request'] = $request->session()->get('datas');
 
         if ($request->session()->has('error')) {
             $data['error'] = $request->session()->get('error');
         }
+
         if ($request->session()->has('error_link')) {
             $data['error_link'] = $request->session()->get('error_link');
         }
@@ -83,13 +79,10 @@ class VideoController extends BaseController
     public function videoEdit(Request $request)
     {
         $data['user'] = $request->user();
-
         $data['video'] = DB::table('video')->where('id', '=', $request->id)->first();
-
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
-
         $data['request'] = $request->session()->get('datas');
 
         if ($request->session()->has('error')) {
@@ -98,7 +91,6 @@ class VideoController extends BaseController
         if ($request->session()->has('error_link')) {
             $data['error_link'] = $request->session()->get('error_link');
         }
-
         if ($request->session()->has('success')) {
             $data['success'] = $request->session()->get('success');
         }
@@ -107,21 +99,20 @@ class VideoController extends BaseController
         $request->session()->forget('error_link');
         $request->session()->forget('success');
         $request->session()->forget('request');
+
         return view('admin.video.videoEdit', ['data' => $data]);
     }
 
     public function videoPostEdit(Request $request)
     {
         $videoModel = Video::where('id', '=', $request->id)->first();
-
         $data = $_POST;
         $this_date = date('YmdHis');
-
         $image = $videoModel->image;
         $video = $videoModel->video;
         $thumbnail = $videoModel->thumbnail;
-
         $uploadedFile = $request->file('image');
+
         if ($uploadedFile && $uploadedFile->isValid()) {
             if (file_exists(public_path($videoModel->image))) {
                 unlink(public_path($videoModel->image));
@@ -171,11 +162,9 @@ class VideoController extends BaseController
     public function videoAdd(Request $request)
     {
         $data['user'] = $request->user();
-
         $data['error'] = '';
         $data['error_link'] = '';
         $data['success'] = '';
-
         $data['request'] = $request->session()->get('datas');
 
         if ($request->session()->has('error')) {
@@ -184,7 +173,6 @@ class VideoController extends BaseController
         if ($request->session()->has('error_link')) {
             $data['error_link'] = $request->session()->get('error_link');
         }
-
         if ($request->session()->has('success')) {
             $data['success'] = $request->session()->get('success');
         }
@@ -193,15 +181,14 @@ class VideoController extends BaseController
         $request->session()->forget('error_link');
         $request->session()->forget('success');
         $request->session()->forget('request');
+
         return view('admin.video.videoAdd', ['data' => $data]);
     }
 
     public function videoPostAdd(Request $request)
     {
         $data = $_POST;
-
         $this_date = date('YmdHis');
-
         $image = '';
         $video = '';
         $thumbnail = '';
