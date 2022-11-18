@@ -14,12 +14,13 @@ class VideoController extends BaseController
     {
         $data = [];
         $installationId = $request->header('InstallationId');
+        $activeSubscription = null;
 
-        if ($installationId && !$customerModel->getActiveSubscriptionByInstallationId($installationId)) {
+        if ($installationId && !$activeSubscription = $customerModel->getActiveSubscriptionByInstallationId($installationId)) {
             return $data;
         }
 
-        foreach ($videoModel->getAvailableVideosObjects($installationId) as $video) {
+        foreach ($videoModel->getAvailableVideosObjects($activeSubscription) as $video) {
             $data[] = [
                 'id' => $video->id,
                 'title' => $video->title,
@@ -40,6 +41,7 @@ class VideoController extends BaseController
     {
         $data = [];
         $installationId = $request->header('InstallationId');
+        $activeSubscription = null;
 
         if ($installationId && !$activeSubscription = $customerModel->getActiveSubscriptionByInstallationId($installationId)) {
             return $data;
