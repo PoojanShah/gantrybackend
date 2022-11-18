@@ -9,10 +9,10 @@
             <div class="col-xs-12 col-sm-3">
                 @if($subscription->status === 'live')
                     <div class="btn btn-md btn-danger font-weight-bold" data-toggle="popover" title="Cancel"
-                         data-content="To cancel subscription contact us by email:
-                        @php
-                             echo \Illuminate\Support\Facades\Config::get('app.ADMIN_EMAIL');
-                         @endphp">
+                         data-content='To cancel subscription contact us by email:
+                         <a href = "mailto:@php echo \Illuminate\Support\Facades\Config::get('app.ADMIN_EMAIL'); @endphp">
+                    @php echo \Illuminate\Support\Facades\Config::get('app.ADMIN_EMAIL'); @endphp
+                    </a>'>
                         Cancel
                     </div>
                 @endif

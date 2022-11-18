@@ -42,7 +42,7 @@ class SubscriptionController extends BaseController
                 $customer->installation_id = $customerData['cf_installation_id'];
                 $customer->display_name = $customerData['display_name'];
                 $customer->save();
-                $plainPassword =  Str::random(15);
+                $plainPassword = Str::random(15);
                 $user = (new User())->forceFill([
                     'name' => $customerData['first_name'],
                     'email' => $customerData['email'],
@@ -84,8 +84,8 @@ class SubscriptionController extends BaseController
             DB::commit();
 
             return $subscription;
-            
-        }  catch (Exception $e) {
+
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage(), $e->getTrace());
             return new Response(
@@ -106,7 +106,6 @@ class SubscriptionController extends BaseController
                 return $query->where('installation_id', '=', $request->header('InstallationId'))
                     ->whereNotIn('subscription_status', Subscription::ACTIVE_STATUSES);
             })->first();
-
     }
 
 }

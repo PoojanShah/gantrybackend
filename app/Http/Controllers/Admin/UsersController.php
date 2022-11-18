@@ -115,6 +115,7 @@ class UsersController extends BaseController
         $request->session()->forget('error_link');
         $request->session()->forget('success');
         $request->session()->forget('request');
+
         return view('admin.users.usersEdit', ['data' => $data]);
     }
 

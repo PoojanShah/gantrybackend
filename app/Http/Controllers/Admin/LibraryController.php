@@ -76,7 +76,7 @@ class LibraryController extends BaseController
             'admin.library.show',
             [
                 'media' => $media,
-                'isAddonPayed' => $media->isAddonPayedByUser(Auth::user()),
+                'isAddonPayed' => $media->isAddonPayedByUser($auth::user()),
                 'zohoAddon' => $media->zoho_addon_code ? $addonRemoteRepository->getOne($media->zoho_addon_code) : null,
                 'subscription' => $this->remoteRepository
                     ->getOne($activeSubscription->zoho_subscription_id)
