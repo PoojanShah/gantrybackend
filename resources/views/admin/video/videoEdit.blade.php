@@ -101,20 +101,6 @@
                                     </small>
                                 </div>
                             </div>
-
-                            <div class="card-body" style="display: none">
-                                <div class="form-group">
-                                    <label for="exampleFormControlFile1">Image</label>
-                                    <input type="file" name="image" class="form-control-file"
-                                           onchange="previewImage(event)" accept="image/jpeg,image/png,image/gif"
-                                           id="exampleFormControlFile1">
-                                    <img <?php if(empty($data['video']->image)) { ?>style="display: none;"
-                                         <?php } ?> src="<?= $data['video']->image; ?>" id="output_image"
-                                         class="create-event__file-preview"/>
-                                </div>
-
-                            </div>
-
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="exampleFormControlFile2">Thumbnail</label>

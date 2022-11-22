@@ -108,41 +108,43 @@ class VideoController extends BaseController
         $videoModel = Video::where('id', '=', $request->id)->first();
         $data = $_POST;
         $this_date = date('YmdHis');
-        $image = $videoModel->image;
         $video = $videoModel->video;
         $thumbnail = $videoModel->thumbnail;
-        $uploadedFile = $request->file('image');
-
-        if ($uploadedFile && $uploadedFile->isValid()) {
-            if (file_exists(public_path($videoModel->image))) {
-                unlink(public_path($videoModel->image));
-            }
-            $imageName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->move('uploadfiles/',);
-            $image = '/uploadfiles/' . $imageName;
-        }
 
         $uploadedFile2 = $request->file('video');
         if ($uploadedFile2 && $uploadedFile2->isValid()) {
+
             if (file_exists(public_path($videoModel->video))) {
                 unlink(public_path($videoModel->video));
             }
+
             $videoName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile2->getClientOriginalExtension();
             $uploadedFile2->move('uploadfiles/', $videoName);
             $video = '/uploadfiles/' . $videoName;
+
+            if((file_exists(public_path($videoModel->thumbnail)))){
+                $thumbnail = $this->renameFile($videoModel->thumbnail, $this_date);
+            }
+
         }
 
         $uploadedFile3 = $request->file('thumbnail');
         if ($uploadedFile3 && $uploadedFile3->isValid()) {
+
             if (file_exists(public_path($videoModel->thumbnail))) {
                 unlink(public_path($videoModel->thumbnail));
             }
+
             $thumbName = $this_date . '_thumb-' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile3->getClientOriginalExtension();
             $uploadedFile3->move('uploadfiles/', $thumbName);
             $thumbnail = '/uploadfiles/' . $thumbName;
+
+            if((file_exists(public_path($videoModel->video)))){
+                $video = $this->renameFile($videoModel->video, $this_date);
+            }
+
         }
 
-        $videoModel->image = $image;
         $videoModel->video = $video;
         $videoModel->thumbnail = $thumbnail;
         $videoModel->zoho_addon_code = $request->zoho_addon_code;
@@ -189,17 +191,8 @@ class VideoController extends BaseController
     {
         $data = $_POST;
         $this_date = date('YmdHis');
-        $image = '';
         $video = '';
         $thumbnail = '';
-
-        if ($uploadedFile = $request->file('image')) {
-            if ($uploadedFile->isValid()) {
-                $imageName = $this_date . '_' . $this->sanitizeTitle($request->title) . '.' . $uploadedFile->getClientOriginalExtension();
-                $uploadedFile->move('uploadfiles/',);
-                $image = '/uploadfiles/' . $imageName;
-            }
-        }
 
         if ($uploadedFile2 = $request->file('video')) {
             if ($uploadedFile2->isValid()) {
@@ -219,7 +212,6 @@ class VideoController extends BaseController
 
         DB::table('video')->insert(
             [
-                'image' => $image,
                 'video' => $video,
                 'thumbnail' => $thumbnail,
                 'sort' => $request->sort ? $request->sort : 0,
@@ -243,6 +235,14 @@ class VideoController extends BaseController
     private function sanitizeTitle(string $title): string
     {
         return htmlspecialchars(str_replace(' ', '_', $title));
+    }
+
+    private function renameFile(string $originalPath, string $prefix): string
+    {
+        $newName = preg_replace('/\d*_/', $prefix.'_$1', $originalPath);
+        rename(public_path($originalPath),  public_path($newName));
+
+        return $newName;
     }
 
 }
