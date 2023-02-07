@@ -12,6 +12,7 @@ class VideoController extends BaseController
 {
     public function getVideos(Request $request, Video $videoModel, Customer $customerModel)
     {
+        //tst
         $data = [];
         $installationId = $request->header('InstallationId');
         $activeSubscription = null;
