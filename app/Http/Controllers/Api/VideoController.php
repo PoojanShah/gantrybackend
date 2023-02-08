@@ -12,7 +12,6 @@ class VideoController extends BaseController
 {
     public function getVideos(Request $request, Video $videoModel, Customer $customerModel)
     {
-        //tst
         $data = [];
         $installationId = $request->header('InstallationId');
         $activeSubscription = null;
@@ -50,9 +49,12 @@ class VideoController extends BaseController
 
         foreach ($videoModel->getAvailableVideosObjects($activeSubscription) as $video) {
             $data[] = [
+                'title' => $video->title,
                 'thumbnail' => (!empty($video->thumbnail)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->thumbnail : '',
                 'media' => (!empty($video->video)) ? 'https://' . $_SERVER['HTTP_HOST'] . $video->video : '',
                 'tags' => $this->getTagsArray($video),
+                'created_at' => $video->created_at,
+                'updated_at' => $video->updated_at,
             ];
         }
 
