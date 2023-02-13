@@ -1,6 +1,6 @@
 version: '3'
 services:
-  
+
   #PHP Service
   app:
     # build:
@@ -15,6 +15,7 @@ services:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
     working_dir: /var/www
+    env_file: .env
     volumes:
       - ./:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
