@@ -1,5 +1,4 @@
 /storage/*.key
-
 /vendor
 .DS_Store
 .idea/
