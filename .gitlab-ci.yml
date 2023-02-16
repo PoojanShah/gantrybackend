@@ -15,9 +15,9 @@ Generate vendor:
   script:
     - |
       if [[ ! -d vendor ]]; then
-        docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer install
+        docker run --rm -v "$(pwd)"/app:/app --user $(id -u):$(id -g) composer install
       fi
-      docker run --rm -v "$(pwd)":/app --user $(id -u):$(id -g) composer update
+      docker run --rm -v "$(pwd)"/app:/app --user $(id -u):$(id -g) composer update
   only:
     - main
   tags:
@@ -38,9 +38,9 @@ Build:
 Deployment:
   stage: deploy
   script:
-    - cp -ar ./* /home/gantryadmin
-    - cp -f $DOT_ENV /home/gantryadmin/.env
-    - cd /home/gantryadmin
+    - cp -ar ./* /home/gantryadmin/gantrybackend
+    - cp -f $DOT_ENV /home/gantryadmin/gantrybackend/.env
+    - cd /home/gantryadmin/gantrybackend
     - docker pull $IMAGE_TAG
     - docker-compose stop app
     - docker-compose up -d
