@@ -1,6 +1,6 @@
 version: '3'
 services:
-  
+
   #PHP Service
   app:
     build:
@@ -13,10 +13,11 @@ services:
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
+    env_file: .env.example
     working_dir: /var/www
     volumes:
-      - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./app/:/var/www
+      - ./.devops/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
@@ -30,8 +31,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/dev/:/etc/nginx/conf.d/
+      - ./app/:/var/www
+      - ./.devops/nginx/conf.d/dev/:/etc/nginx/conf.d/
     networks:
       - app-network
 
@@ -52,7 +53,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql/
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./.devops/mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
 
