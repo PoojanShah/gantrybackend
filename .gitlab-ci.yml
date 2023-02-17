@@ -39,6 +39,7 @@ Deployment:
   stage: deploy
   script:
     - cp -ar ./** /home/gantryadmin/gantrybackend
+    - chown -R www-data:www-data /home/gantryadmin/gantrybackend/app
     - cp -f $DOT_ENV /home/gantryadmin/gantrybackend/.env
     - cd /home/gantryadmin/gantrybackend
     - docker pull $IMAGE_TAG
