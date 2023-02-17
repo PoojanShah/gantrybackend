@@ -3,10 +3,6 @@ services:
 
   #PHP Service
   app:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile
-    # image: backend:php
     image: gcr.io/extended-method-356910/gantrybackend:prod
     container_name: app
     restart: unless-stopped
@@ -34,6 +30,7 @@ services:
     volumes:
       - ./app/:/var/www
       - ./.devops/nginx/conf.d/:/etc/nginx/conf.d/
+      - /etc/letsencrypt:/etc/letsencrypt
     networks:
       - app-network
 
@@ -43,8 +40,6 @@ services:
     container_name: db
     restart: unless-stopped
     tty: true
-    ports:
-      - "3306:3306"
     environment:
       MYSQL_DATABASE: laravel
       MYSQL_ROOT_PASSWORD: 9AYp9wiW7xoYPJWP
@@ -65,4 +60,5 @@ networks:
 #Volumes
 volumes:
   dbdata:
-    driver: local
+    external: true
+    name: gantryadmin_dbdata
