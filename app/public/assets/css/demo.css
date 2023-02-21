@@ -437,7 +437,7 @@ header .nav-item.active .nav-link, header .nav-item:hover .nav-link, header .nav
 }
 
 .media-item {
-    border-bottom: 4rem!important;
+    padding-bottom: 4rem!important;
 }
 .media-item, .media-item:hover {
     color: black;
