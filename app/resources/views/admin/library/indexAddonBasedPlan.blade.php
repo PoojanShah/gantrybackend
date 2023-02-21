@@ -19,7 +19,7 @@
 
         </div>
         <div class="row pb-2">
-            <div class="col-md-12 pt-2 pb-2">
+            <div class="col-md-12 pt-4 pb-4">
                 <h4 class="font-weight-bold pt-2 pb-2">Default</h4>
             </div>
             @foreach($freeMedia as $media)
@@ -36,7 +36,7 @@
 
         </div>
         <div class="row">
-            <div class="col-md-12 pt-5 pb-2">
+            <div class="col-md-12 pt-4 pb-4">
                 <h4 class="font-weight-bold pt-2 pb-2">Purchased</h4>
             </div>
             @foreach($purchasedMedia as $media)
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 pt-5 pb-2">
+            <div class="col-md-12 pt-4 pb-4">
                 <h4 class="font-weight-bold pt-2 pb-2">Available for subscription</h4>
             </div>
 
