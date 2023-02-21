@@ -20,7 +20,7 @@
 
         </div>
         <div class="row pb-2">
-            <div class="col-md-12 pt-2 pb-2">
+            <div class="col-md-12 pt-4 pb-4">
                 <h5 class="font-weight-bold">Available Media</h5>
             </div>
             @foreach($media as $singleMedia)
